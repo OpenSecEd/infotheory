@@ -5,7 +5,7 @@ SRC=		basics.tex abstract.tex basics.bib
 FIGURES= 	collusion.png
 FIGURES+= 	password_strength.png password_reuse.png encryptic.png
 
-infotheory.pdf: ${SRC} ${FIGURES}
+basics.pdf: ${SRC} ${FIGURES}
 
 password_strength.png:
 	wget -O $@ http://imgs.xkcd.com/comics/password_strength.png
