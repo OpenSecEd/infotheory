@@ -12,24 +12,27 @@
 \usepackage{booktabs}
 \usepackage[squaren,binary]{SIunits}
 \usepackage[strict]{csquotes}
+\usepackage{cleveref}
+\usepackage{hhcount}
 
 \setbeamertemplate{bibliography item}[text]
 \usepackage[natbib,style=alphabetic,maxbibnames=99]{biblatex}
 \addbibresource{basics.bib}
 
-%\newtheorem{theorem}{Sats}%[chapter]
-\providetranslation[to=swedish]{Theorem}{Sats}
-%\newtheorem{lemma}{Lemma}
-%\newtheorem{corollary}{Korollarium}
-\providetranslation[to=swedish]{Corollary}{Korollarium}
-\theoremstyle{definition}
-%\newtheorem{definition}{Definition}
-%\newtheorem{axiom}[definition]{Axiom}
-\newenvironment{axiom}[1]{\begin{block}{Postulat (#1)}}{\end{block}}
-%\newtheorem{example}{Exempel}
-\providetranslation[to=swedish]{Example}{Exempel}
-\newtheorem{exercise}{Övning}
+\usepackage{xparse}
+\ProvideDocumentEnvironment{exercise}{o}{%
+  \setbeamercolor{block body}{bg=yellow!30,fg=black}
+  \setbeamercolor{block title}{bg=yellow,fg=black}
+  \IfValueTF{#1}{%
+    \begin{block}{Exercise: #1}
+  }{%
+    \begin{block}{Exercise}
+  }
+}{%
+  \end{block}
+}
 
+\DeclareMathOperator{\powerset}{\mathcal{P}}
 \DeclareMathOperator{\p}{\mathcal{P}}
 \let\P\p
 \DeclareMathOperator{\C}{\mathcal{C}}
@@ -43,42 +46,30 @@
 
 \let\stoch\mathbf{}
 
-\DeclareMathOperator{\lequiv}{\Longleftrightarrow}
 \DeclareMathOperator{\xor}{\oplus}
 
 \renewcommand{\qedsymbol}{Q.E.D.}
 
 \mode<presentation>{%
-  \usetheme{Frankfurt}
+  \usetheme{Berlin}
   \setbeamercovered{transparent}
-  \usecolortheme{seagull}
 }
 \setbeamertemplate{footline}{\insertframenumber}
 
-% XXX translate lecture on infotheory
 \title{%
-  Informationsteori
+  Elementary Information Theory
 }
-\author{Daniel Bosk\footnote{%
-  Detta verk är tillgängliggjort under licensen Creative Commons 
-  Erkännande-DelaLika 2.5 Sverige (CC BY-SA 2.5 SE).
-	För att se en sammanfattning och kopia av licenstexten besök URL 
-	\url{http://creativecommons.org/licenses/by-sa/2.5/se/}.
-}}
+\author{%
+  Daniel Bosk
+}
 \institute[MIUN IKS]{%
-  %Department of Information and Communication Systems (ICS),\\
-  %Mid Sweden University, Sundsvall.
-	%
-  Avdelningen för informations- och kommunikationssytem (IKS),\\
-  Mittuniversitetet, Sundsvall.
+  Department of Information and Communication Systems,\\
+  Mid Sweden University, Sundsvall.
 }
 \date{\today}
 
-%\pgfdeclareimage[height=0.65cm]{university-logo}{MU_logotyp_int_CMYK.pdf}
-%\logo{\pgfuseimage{university-logo}}
-
 \AtBeginSection[]{%
-  \begin{frame}<beamer>{Översikt}
+  \begin{frame}
     \tableofcontents[currentsection]
   \end{frame}
 }
@@ -89,7 +80,7 @@
   \titlepage{}
 \end{frame}
 
-\begin{frame}{Översikt}
+\begin{frame}
   \tableofcontents
 \end{frame}
 
@@ -105,36 +96,434 @@
 %   15 and 30 frames, all told.
 
 
-\section{Informationsteori}
+\section{Introduction}
 
-\subsection{Historia}
+\subsection{History}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
-    \item Området informationsteori skapades 1948 genom Shannons artikel 
+    \item Created 1948 by Shannon's paper 
       \citetitle{Shannon1948amt}~\cite{Shannon1948amt}.
 
-    \item I sin artikel myntar han begreppet entropi för information.
+      \pause{}
+
+    \item He starts using the term \enquote{entropy} as a measure for 
+      information.
       \begin{itemize}
-        \item Begreppet entropi fanns sedan tidigare inom fysiken.
-        \item Där är det ett mått på oordningen hos molekyler i ett system.
-        \item Och Shannons entropi är ett mått på oordningen i informationen.
+        \item In physics entropy measures the disorder of molecules.
+        \item Shannon's entropy measures disorder of information.
       \end{itemize}
 
-    \item Han använder sin teori för att analysera kommunikation.
+      \pause{}
+
+    \item He used this theory to analyse communication.
       \begin{itemize}
-        \item Vad är de teoretiska gränserna för kommunikationskanaler?
-          Både med och utan brus?
-        \item Hur mycket redundans krävs för en given nivå brus?
-        \item Detta är intressant på det fysiska nätverkslagret.
+        \item What are the theoretical limits for different channels?
+        \item How much redundancy is needed for certain noise?
       \end{itemize}
 
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  \begin{itemize}
+    \item This theory is interesting on the physical layer of networking.
+
+      \pause{}
+
+    \item It's also interesting for security.
+      \begin{itemize}
+        \item Field of Information Theoretic Security
+        \item \enquote{Efficiency} of passwords
+        \item Measure identifiability
+        \item \dots
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{itemize}
+    \item Information Theory is based in Probability Theory.
+    \item So we need a slight recap.
+  \end{itemize}
+\end{frame}
+
+
+\section{Probability theory}
+
+\subsection{Some definitions}
+
+\begin{frame}
+  \begin{definition}[Outcome]
+    \begin{itemize}
+      \item \emph{Sample space} \(\Omega\) of all possible outcomes.
+      \item Elements \(\omega\in \Omega\) are called outcomes.
+      \item An \emph{event} is a set \(A\subseteq \Omega\).
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{itemize}
+      \item Sample space of a roll of a die: \[\Omega_D = \{\fcdice{1}, 
+          \fcdice{2}, \fcdice{3}, \fcdice{4}, \fcdice{5}, \fcdice{6}\},\]
+        
+        \pause{}
+
+      \item The set of possible events is \(\powerset(\Omega_D) 
+          = \{\{\fcdice{1}\}, \ldots, \{\fcdice{6}\}, \{\fcdice{1}, 
+          \fcdice{2}\}, \ldots, \{\fcdice{1}, \fcdice{6}\}, 
+          \{\fcdice{2},\fcdice{3}\}, \ldots, 
+          \{\fcdice{1},\ldots,\fcdice{6}\}\}\).
+      \item Thus \(\{\fcdice{1}\},\ldots,\{\fcdice{6}\}\) are events.
+      \item But so is \(\emptyset\) and \(\{\fcdice{1}, \ldots, \fcdice{6}\}\).
+
+        \pause{}
+
+      \item An event means that one of its outcomes happen.
+      \item So that we can express \enquote{the die roll results in an even 
+          number}: \(\{\fcdice{2}, \fcdice{4}, \fcdice{6}\}\).
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[Probability measure]
+    \begin{itemize}
+      \item \(\Omega\) is a sample space.
+      \item A \emph{probability measure} is a function \(\Pr\colon 
+          \powerset(\Omega)\to [0,1]\) such that:
+        \begin{enumerate}
+          \item \(\Pr[ \emptyset ] = 0\) and \(\Pr[ \Omega ] = 1\),
+          \item If \(A\subseteq \Omega\) and \(B\subseteq \Omega\) and \(A\cap 
+              B = \emptyset\), then \(\Pr[A\cup B] = \Pr[A] + \Pr[B]\).
+        \end{enumerate}
+    \end{itemize}
+  \end{definition}
+
+  \begin{exercise}
+    This is well-defined, but why?
+    For instance, how do we know that \(0\leq \Pr[A] + \Pr[B]\leq 1\)?
+  \end{exercise}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{itemize}
+      \item Let \(\Omega_D\) be the sample space for the die roll.
+      \item How shall we define \(\Pr\colon \powerset(\Omega_D)\to [0, 1]\)?
+
+        \pause{}
+
+      \item \(\Pr[\{\fcdice{1}\}] = \cdots = \Pr[\{\fcdice{6}\}] 
+          = \frac{1}{6}\)
+    \end{itemize}
+  \end{example}
+
+  \pause{}
+
+  \begin{exercise}
+    The probability of the die showing an even number after a roll is 
+    \(\frac{3}{6}\), why?
+  \end{exercise}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[Probability space]
+    \begin{itemize}
+      \item \(\Omega\) is a sample space.
+      \item \(\Pr\) is a probability measure on \(\Omega\).
+
+        \pause{}
+
+      \item We call \((\Omega, \Pr)\) for a \emph{probability space}.
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+\subsection{Some results}
+
+\begin{frame}
+  \begin{theorem}[Probability for event and complement]
+    \begin{itemize}
+      \item Let \(A\subseteq \Omega\) be an event and \(C = \Omega\setminus A\) 
+        its complement.
+      \item Then \(\Pr[C] = 1 - \Pr[A]\).
+    \end{itemize}
+  \end{theorem}
+
+  \pause{}
+
+  \begin{proof}
+    \begin{itemize}
+      \item Definition said \(\Pr[\Omega] = 1\).
+
+        \pause{}
+
+      \item \(A\cup C = \Omega\), thus \(\Pr[A\cup C] = 1\).
+
+        \pause{}
+
+      \item It also said that for \(A\subseteq \Omega\) and \(B\subseteq 
+          \Omega\) we have \(\Pr[A\cup B] = \Pr[A] + \Pr[B]\).
+
+        \pause{}
+
+      \item So \(\Pr[A\cup C]\) is also \(\Pr[A] + \Pr[C]\).
+
+        \pause{}
+
+      \item Thus \(\Pr[A] + \Pr[C] = 1\) and so \(\Pr[C] = 1 - \Pr[A]\).
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{itemize}
+      \item Rolling an even number was probability \(\frac{3}{6}\).
+      \item Applying the theorem, rolling an odd number is \(1-\frac{3}{6}\).
+    \end{itemize}
+  \end{example}
+
+  \pause{}
+
+  \begin{exercise}
+    Give two ways to compute the probability of rolling a \fcdice{6}.
+  \end{exercise}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}[Independent evens]
+    \begin{itemize}
+      \item \((\Omega, \Pr)\) is a probability space.
+      \item Events \(A\subseteq \Omega\) and \(B\subseteq \Omega\) are 
+        \emph{independent} if \(\Pr[A\cap B] = \Pr[A]\cdot \Pr[B]\).
+    \end{itemize}
+  \end{definition}
+
+  \pause{}
+
+  \begin{example}
+    \begin{itemize}
+      \item We roll one die, \(\Omega_D = \{\fcdice{1}, \ldots, \fcdice{6}\}\).
+      \item Events: roll a one, \(A = \{\fcdice{1}\}\), and roll a six, \(B 
+          = \{\fcdice{6}\}\).
+
+        \pause{}
+
+      \item Clearly we cannot get \fcdice{1} and \fcdice{6} at the same time:
+        \[\Pr[A\cap B] = \Pr[\emptyset] = 0 \neq \Pr[A]\cdot \Pr[B].\]
+
+      \item But we can get either: \(\Pr[A\cup B] = \Pr[A] + \Pr[B] 
+          = \frac{2}{6}\).
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{itemize}
+      \item We roll two dice: \(\Omega_{D2} = \{(\fcdice{1},\fcdice{1}), 
+          \ldots, (\fcdice{1}, \fcdice{6}), \ldots, (\fcdice{6}, \fcdice{1}), 
+          \ldots, (\fcdice{6}, \fcdice{6})\).
+
+        \pause{}
+
+      \item Roll a one: \(A = \{(\fcdice{1}, \fcdice{1}), \ldots, (\fcdice{1}, 
+          \fcdice{6}), (\fcdice{2}, \fcdice{1}), \ldots, (\fcdice{6}, 
+          \fcdice{1})\}\).
+
+      \item Roll a six: \(B = \{(\fcdice{6}, \fcdice{1}), \ldots, (\fcdice{6}, 
+          \fcdice{6}), (\fcdice{1}, \fcdice{6}), \ldots, (\fcdice{5}, 
+          \fcdice{6})\}\).
+
+        \pause{}
+
+      \item Roll a one and a six: \(\Pr[A\cap B] = \Pr[\{(\fcdice{1}, 
+          \fcdice{6}), (\fcdice{6}, \fcdice{1})\}] = \frac{2}{36} \neq 
+          \frac{1}{6}\cdot \frac{1}{6}\).
+
+      \item Roll a one or a six with two chances: \(\Pr[A\cup B]\).
+
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}
+    \begin{itemize}
+      \item We roll two dice: \(\Omega_{D2} = \{(\fcdice{1},\fcdice{1}), 
+          \ldots, (\fcdice{1}, \fcdice{6}), \ldots, (\fcdice{6}, \fcdice{1}), 
+          \ldots, (\fcdice{6}, \fcdice{6})\).
+
+        \pause{}
+
+      \item \emph{First} roll a one: \(A = \{(\fcdice{1}, \fcdice{1}), \ldots, 
+          (\fcdice{1}, \fcdice{6})\}\).
+
+      \item \emph{Second} roll a six: \(B = \{(\fcdice{1}, \fcdice{6}), \ldots, 
+          (\fcdice{6}, \fcdice{6})\}\).
+
+        \pause{}
+
+      \item First roll a one, then a six: \(\Pr[A\cap B] = \Pr[\{(\fcdice{1}, 
+          \fcdice{6})\}] = \frac{1}{36} = \frac{1}{6}\cdot \frac{1}{6}\).
+
+      \item Either roll a one first \emph{or} a six on the second: \(\Pr[A\cup 
+          B]\).
+
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    Even if \(\Pr[A]\cdot \Pr[B] = \Pr[A\cap B]\) they are not necessarily 
+    independent, why?
+  \end{exercise}
+\end{frame}
+
+\subsection{Conditional probability}
+
+\begin{frame}
+  \begin{definition}[Conditioned probability]
+    \begin{itemize}
+      \item Let \(A, B\) be events in probability space \((\Omega, \Pr)\).
+      \item The probability of \(B\) given \(A\) is defined as \(\Pr[B\mid A] 
+          = \frac{\Pr[B\cap A]}{\Pr[A]}\)
+    \end{itemize}
+  \end{definition}
+
+  \pause{}
+  
+  \begin{example}
+    \begin{itemize}
+      \item Use probability space for rolling a die, \((\Omega_D, \Pr)\).
+      \item Event \(E = \{\fcdice{2}, \fcdice{4}, \fcdice{6}\}\) for even side 
+        up.
+
+        \pause{}
+
+      \item Let \(A = \{\fcdice{2}\}\) and \(B = \{\fcdice{3}\}\), then
+        \[\Pr[A\mid E] = \frac{\Pr[\{\fcdice{2}\}]}{\Pr[E]} = \frac{1}{3}
+          \text{ and }
+          \Pr[B\mid E] = \frac{\Pr[\emptyset]}{\Pr[E]} = 0.\]
+
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[Joint probability]
+    \begin{itemize}
+      \item Let \(A, B\) be events in probability space \((\Omega, \Pr)\).
+      \item Then \(\Pr[A\cap B] = \Pr[A]\cdot \Pr[B\mid A]\)
+    \end{itemize}
+  \end{theorem}
+
+  \pause{}
+
+  \begin{exercise}
+    Using conditional probability we can show this new result, how?
+  \end{exercise}
+%  \begin{proof}
+%    \begin{itemize}
+%      \item We know from definition: \(\Pr[B\mid A] = \frac{\Pr[A\cap 
+%            B]}{\Pr[A]}\).
+%
+%      \item Thus \(\Pr[B\mid A]\cdot \Pr[A] = \Pr[A\cap B]\).
+%    \end{itemize}
+%  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}[Bayes sats]
+    \begin{itemize}
+      \item Let \(A, B\) be events in probability space \((\Omega, \Pr)\).
+      \item Then \(
+          \Pr[A\mid B] = \frac{\Pr[B\mid A]\Pr[A]}{\Pr[B]}.
+        \)
+    \end{itemize}
+  \end{theorem}
+
+  \pause{}
+
+  \begin{proof}
+    \begin{itemize}
+      \item \(\Pr[A\mid B] = \frac{\Pr[A\cap B]}{\Pr[B]}\) and \(\Pr[B\mid A] 
+          = \frac{\Pr[A\cap B]}{\Pr[A]}\).
+
+        \pause{}
+
+      \item Thus \(\Pr[A\cap B] = \Pr[A\mid B] \Pr[B] = \Pr[B\mid A] \Pr[A]\).
+
+        \pause{}
+
+      \item Which means \(\Pr[A\mid B] = \frac{\Pr[B\mid A] \Pr[A]}{\Pr[B]}\).
+    \end{itemize}
+  \end{proof}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[An intrusion detection system]
+    \begin{itemize}
+      \item Our IDS is this good:
+        \begin{itemize}
+          \item It detects malicious traffic with \unit{99}{\%} certainty (true 
+            positives).
+          \item It discards benign traffic with \unit{99}{\%} certainty (true 
+            negatives).
+        \end{itemize}
+
+        \pause{}
+
+      \item \emph{Assume} \unit{0.5}{\%} of \enquote{the traffic} consist of 
+        attacks.
+
+        \pause{}
+
+      \item Event \(M\) is malicious traffic, \(B\) is benign traffic.
+      \item Event \(+\) means IDS declared malicious, \(-\) declared benign.
+
+        \pause{}
+
+      \item Then we get \dots
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[IDS continued]
+    \begin{align*}
+      \Pr[M\mid +] &= \frac{\Pr[+\mid M] \Pr[M]}{\Pr[+]}
+      = \frac{0.99\cdot 0.005}{\Pr[+]} \\
+      &= \frac{0.99\cdot 0.005}{\Pr[+\mid M] \Pr[M] + \Pr[+\mid B] \Pr[B]} 
+      \\
+      &= \frac{0.99\cdot 0.005}{0.99\cdot 0.005 + 0.01\cdot (1 - \Pr[M])} 
+      \\
+      &= \frac{0.99\cdot 0.005}{0.99\cdot 0.005 + 0.01\cdot 0.995} \\
+      &= 0.33
+    \end{align*}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{exercise}
+    \begin{itemize}
+      \item What's a good-enough probability for \(\Pr[M\mid +]\)?
+      \item How do we achieve it?
+    \end{itemize}
+  \end{exercise}
+\end{frame}
+
+
+\section{Shannon entropy}
+
 \subsection{Definition av Shannonentropi}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{definition}[Shannonentropi]
     Låt \(\stoch X\) vara en stokastisk variabel som antar värden från en 
     ändlig mängd \(X\).
@@ -148,7 +537,7 @@
   \end{definition}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Vi kan se Shannonentropin för en stokastisk variabel som hur mycket 
       \enquote{val} som varje utfall innebär.
@@ -164,7 +553,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{example}[Singla slant]
     Låt \(\stoch S\) beteckna en stokastisk variabel som antar värden ur 
     mängden \(S = \{krona, klave\}\).
@@ -182,7 +571,7 @@
   \end{example}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{example}[Kasta tärning]
     Låt \(\stoch T\) beteckna en stokastisk variabel som antar värden ur 
     mängden \(T = \{1, 2, 3, 4, 5, 6\}\).
@@ -195,7 +584,7 @@
   \end{example}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Betyder alltså att det svårare att förutspå ett tärningskast än 
       slantsingling.
@@ -206,7 +595,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{example}[Tärningskast igen]
     En ny stokastisk variabel \(T^\prime\) antar värden ur \(T = \{1, 2, 3, 4, 
     5, 6\}\).
@@ -234,7 +623,7 @@
 
 \subsection{Jensens olikhet}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{definition}
     Låt \(f\colon \R\to \R\) vara en funktion sådan att
     \begin{align*}
@@ -250,7 +639,7 @@
   \end{example}
 \end{frame}
 
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{lemma}
 %    Låt \(f\) vara en strikt konkav funktion.
 %    Då har vi att
@@ -261,7 +650,7 @@
 %  \end{lemma}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{proof}
 %    Antag \(x = y\).
 %    Då har vi
@@ -284,7 +673,7 @@
 %  \end{proof}
 %\end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{theorem}[Jensens olikhet]
     Om \(f\) är en strikt konkav funktion och \(a_1, a_2,\ldots, a_n\) är 
     reella tal strikt större än noll och sådana att \(\sum_{i=1}^n a_i = 1\) då 
@@ -296,7 +685,7 @@
   \end{theorem}
 \end{frame}
 
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{block}{Bevis för Jensens olikhet.}
 %    Bevis genom induktion.
 %    Antag \(n=2\).
@@ -315,7 +704,7 @@
 %  \end{block}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{proof}[Forts. bevis för Jensens olikhet]
 %    Lås oss visa att detta även gäller för \(n=k+1\).
 %    Eftersom att \(f\) är konkav gäller att
@@ -337,7 +726,7 @@
 
 \subsection{Egenskaper för Shannonentropi}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{theorem}
     Låt \(\stoch X\) vara en stokastisk variabel med sannolikhetsdistribution 
     som antar värdena \(p_1, p_2,\ldots, p_n\), där \(p_i > 0\) för \(1\leq 
@@ -347,7 +736,7 @@
   \end{theorem}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{proof}
     Satsen följer direkt från Jensens olikhet:
     \begin{align*}
@@ -359,7 +748,7 @@
   \end{proof}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{corollary}
     \(H(\stoch X) = 0\) om och endast om \(\Pr(\stoch X = x) = 1\) för något 
     \(x\in X\) och \(\Pr(\stoch X = x^\prime) = 0\) för alla \(x\neq x^\prime 
@@ -375,7 +764,7 @@
   \end{proof}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{theorem}
     Följande egenskaper gäller:
     \begin{enumerate}
@@ -393,7 +782,7 @@
   \end{proof}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{lemma}
     Låt \(\stoch X\) och \(\stoch Y\) vara stokastiska variabler.
     Då gäller att
@@ -404,12 +793,12 @@
   \end{lemma}
 \end{frame}
 
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{proof}
 %  \end{proof}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{theorem}
 %    En utjämning av sannolikheterna ökar \(H(\stoch X)\).
 %  \end{theorem}
@@ -422,7 +811,7 @@
 
 \subsection{Betingad entropi}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{definition}[Betingad entropi]
     Vi definierar den \emph{betingade entropin} \(H(\stoch Y\mid \stoch X)\) 
     som
@@ -435,29 +824,29 @@
   \end{definition}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{theorem}
     \(H(\stoch X, \stoch Y) = H(\stoch Y) + H(\stoch X\mid \stoch Y)\)
   \end{theorem}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{proof}
 %  \end{proof}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
   \begin{corollary}
     \(H(\stoch X\mid \stoch Y) \leq H(\stoch X)\).
   \end{corollary}
 \end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{proof}
 %  \end{proof}
 %\end{frame}
 %
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{theorem}
 %    Entropin för en Markovprocess
 %  \end{theorem}
@@ -465,7 +854,7 @@
 
 \subsection{Informationstäthet och redundans}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{definition}
     Låt \(L\) vara ett naturligt språk och \(\stoch P^n\) vara en stokastisk 
     variabel som har sannolikhetsfördelningen av strängar av längd \(n\) 
@@ -481,7 +870,7 @@
   \end{definition}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Detta betyder att vi har \(H_L\) bitar information per tecken 
       i språket \(L\).
@@ -505,7 +894,7 @@
   \end{itemize}
 \end{frame}
 
-%\begin{frame}{\insertsubsectionhead}
+%\begin{frame}
 %  \begin{itemize}
 %    \item Detta säger också att vi kan uppskatta entropin för en given 
 %      Markovprocess.
@@ -521,7 +910,7 @@
 
 \subsection{Informationsvinst}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{definition}
     Låt \(U\) vara mängden av möjliga utfall och sannolikheten för utfall \(i\) 
     betecknas \(p_i\).
@@ -534,7 +923,7 @@
   \end{definition}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{example}[Tärningskast igen]
     Vi gör ett kast med en perfekt tärning.
     Om vi får veta att tärningskastet är ett jämnt tal har vi fått
@@ -547,7 +936,7 @@
   \end{example}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{example}[Ytterligare tärningskast]
     Vi får veta att tärningen visar mindre än fem.
     Då har vi fått
@@ -563,7 +952,7 @@
 
 \subsection{Lösenord}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{block}{Idé}
     Kan använda \(H(x_1, x_2, \ldots, x_n) = H(x_1) + H(x_2) + \cdots 
     + H(x_n)\) för att räkna på entropin hos lösenord, där \(x_i\) är olika 
@@ -589,7 +978,7 @@
 
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Om variablerna ej är oberoende får vi åtminstone en övre gräns -- 
       dock skulle vi vara mer intresserade av en nedre gräns.
@@ -601,7 +990,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{figure}
     \includegraphics[height=0.7\textheight]{password_strength.png}
     \caption{xkcd:s serie om lösenordsstyrka.
@@ -609,7 +998,7 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}{En förklaring av xkcd}
+\begin{frame}{En förklaring av xkcd}
   \begin{itemize}
     \item Vi har 1 miljon engelska ord: ger \(\log 10^6 \approx 20\) bitar 
       entropi.
@@ -635,7 +1024,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Vi har 26 bokstäver, 10 siffror och (uppskattningsvis använder vi) 10 
       specialtecken.
@@ -651,7 +1040,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Vi har 125\,000 svenska ord: ger \(\log 125\,000\approx 17\) bitar 
       entropi per ord.
@@ -663,7 +1052,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Detta bygger på att vi väljer slumpmässigt.
 
@@ -675,7 +1064,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}{När de inte är slumpvisa}
+\begin{frame}{När de inte är slumpvisa}
   \begin{itemize}
     \item \citet{Bonneau2012lpo} undersöker hur lingvistiken påverkar valet av 
       lösenord beståendes av flera ord.
@@ -690,7 +1079,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item \citet{Kuo2006hso} gjorde en undersökning av hur användare skapar 
       lösenord som är lätta att komma ihåg.
@@ -709,7 +1098,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Vi kan använda läckta lösenordsdatabaser för att uppskatta entropin 
       för mänskligt valda lösenord.
@@ -722,7 +1111,7 @@
 
 \subsection{Identifierande information}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{example}[Vad får vi ut mest information av?]
     Får vi ut mest information av stjärntecken eller födelsedag?
     \begin{align*}
@@ -743,13 +1132,13 @@
   \end{block}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{center}
     Hur mycket information behövs för att unikt identifiera en individ?
   \end{center}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Det fanns \(n = 6\,973\,738\,433\) människor på jorden, vid något 
       tillfälle under 2011 enligt Världsbanken.
@@ -762,7 +1151,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Electronic Frontier Foundation (EFF) genomförde en 
       undersökning~\cite{Eckersley2010hui} hur mycket identifierande 
@@ -778,7 +1167,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{figure}
     \includegraphics[height=0.7\textheight]{collusion.png}
     \caption{Skärmdump från Collusion (sedemera Lightbeam) för Firefox över 
@@ -788,7 +1177,7 @@
 
 \subsection{Kryptografi}
 
-\begin{frame}{\insertsubsectionhead}
+\begin{frame}
   \begin{itemize}
     \item Används för att se hur mycket information vi får ut av en nyckel 
       genom att se en kryptotext.
