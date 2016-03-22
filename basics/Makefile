@@ -2,6 +2,7 @@
 all: basics.pdf
 
 SRC=		basics.tex abstract.tex basics.bib
+SRC+=		hhcount.sty
 FIGURES= 	collusion.png
 FIGURES+= 	password_strength.png password_reuse.png encryptic.png
 
@@ -16,12 +17,17 @@ password_reuse.png:
 encryptic.png:
 	wget -O $@ http://imgs.xkcd.com/comics/encryptic.png 
 
+hhcount.sty: hhutils0.sty
+hhcount.sty hhutils0.sty:
+	wget -O $@ http://tug.ctan.org/tex-archive/usergrps/uktug/baskervi/5_5/$@
+
 
 .PHONY: clean-depends
 clean-depends:
 	${RM} password_strength.png
 	${RM} password_reuse.png
 	${RM} encryptic.png
+	${RM} hhcount.sty hhutils0.sty
 
 
 INCLUDE_MAKEFILES=../makefiles
