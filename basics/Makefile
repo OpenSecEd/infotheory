@@ -20,6 +20,7 @@ encryptic.png:
 hhcount.sty: hhutils0.sty
 hhcount.sty hhutils0.sty:
 	wget -O $@ http://tug.ctan.org/tex-archive/usergrps/uktug/baskervi/5_5/$@
+	touch $@
 
 
 .PHONY: clean-depends
