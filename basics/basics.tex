@@ -578,7 +578,8 @@
 \begin{frame}
   \begin{example}[Kasta tärning]
     Låt \(\stoch T\) beteckna en stokastisk variabel som antar värden ur 
-    mängden \(T = \{1, 2, 3, 4, 5, 6\}\).
+    mängden \(T = \{\fcdice{1}, \fcdice{2}, \fcdice{3}, \fcdice{4}, \fcdice{5}, 
+      \fcdice{6}\}\).
     Då har vi att \(\Pr(\stoch T = t) = \frac{1}{6}\) för alla \(t\in T\).
     Följaktligen är entropin för \(\stoch T\)
     \begin{align*}
@@ -601,10 +602,11 @@
 
 \begin{frame}
   \begin{example}[Tärningskast igen]
-    En ny stokastisk variabel \(T^\prime\) antar värden ur \(T = \{1, 2, 3, 4, 
-    5, 6\}\).
-    Låt nu \(\Pr(\stoch T^\prime = 6) = \frac{9}{10}\) och \(\Pr(\stoch 
-    T^\prime = t) = \frac{1}{5\times 10}\) för alla \(t\neq 6\).
+    En ny stokastisk variabel \(T^\prime\) antar värden ur \(T = \{\fcdice{1}, 
+      \fcdice{2}, \fcdice{3}, \fcdice{4}, \fcdice{5}, \fcdice{6}\}\).
+    Låt nu \(\Pr(\stoch T^\prime = \fcdice{6}) = \frac{9}{10}\) och 
+    \(\Pr(\stoch T^\prime = t) = \frac{1}{5\times 10}\) för alla \(t\neq 
+      \fcdice{6}\).
     Detta ger entropin
     \begin{align*}
       H(\stoch T^\prime) &= -\left( \frac{9}{10}\log\frac{9}{10} + \sum_{t\neq 
