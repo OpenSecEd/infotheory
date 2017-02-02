@@ -398,23 +398,23 @@
   \end{proof}
 \end{frame}
 
-\begin{frame}
-  \begin{theorem}
-    Följande egenskaper gäller:
-    \begin{enumerate}
-      \item\label{prop:cont} \(H\) är kontinuerlig.
-      \item\label{prop:mono} Om \(\Pr(\stoch X = x) = 1/|X|\) för alla \(x\in 
-        X\) då är \(H\) en monotont stigande funktion med avseende på \(|X|\).
-    \end{enumerate}
-  \end{theorem}
-
-  \begin{proof}
-    \Cref{prop:cont} följer direkt av att logaritmen är kontinuerlig och 
-    funktionssammansättningar av kontinuerliga funktioner är kontinuerliga.
-
-    \Cref{prop:mono} följer av föregående sats.
-  \end{proof}
-\end{frame}
+%\begin{frame}
+%  \begin{theorem}
+%    Följande egenskaper gäller:
+%    \begin{enumerate}
+%      \item\label{prop:cont} \(H\) är kontinuerlig.
+%      \item\label{prop:mono} Om \(\Pr(\stoch X = x) = 1/|X|\) för alla \(x\in 
+%        X\) då är \(H\) en monotont stigande funktion med avseende på \(|X|\).
+%    \end{enumerate}
+%  \end{theorem}
+%
+%  \begin{proof}
+%    \Cref{prop:cont} följer direkt av att logaritmen är kontinuerlig och 
+%    funktionssammansättningar av kontinuerliga funktioner är kontinuerliga.
+%
+%    \Cref{prop:mono} följer av föregående sats.
+%  \end{proof}
+%\end{frame}
 
 \begin{frame}
   \begin{lemma}
@@ -573,7 +573,7 @@
 
   \begin{remark}
     \begin{itemize}
-      \item \(X' = \{1, 3, 5\}\)
+      \item \(X' = \{\fcdice{1}, \fcdice{3}, \fcdice{5}\}\)
       \item \(H(\stoch X') = - \sum_{x\in X'} \Pr(\stoch X' = x)\log \Pr(\stoch 
           X' = x)\)
       \item I.e.\ \(- 3 \times \frac{1}{3}\log\frac{1}{3} \approx 1.58\).
@@ -608,17 +608,17 @@
     \begin{itemize}
       \item Vi vill helst ha \emph{oberoende} stokastiska variabler.
 
-      \item Exempelvis:
+      \item Vi har tillgång till exempelvis:
         \begin{itemize}
           \item längd,
           \item antal och placering för varje teckenklass,
           \item innehållet i varje tecken.
         \end{itemize}
 
-      \item Dessa är dock inte oberoende.
+      \item Dessa är inte oberoende.
 
-      \item Summan av entropierna för respektive del ger entropin för 
-        sannolikhetsfördelningen av lösenord.
+      \item Summan av entropierna för respektive del ger \emph{övre gräns} för 
+        entropin för sannolikhetsfördelningen av lösenord.
 
     \end{itemize}
   \end{example}
@@ -627,8 +627,9 @@
 \begin{frame}
   \begin{remark}
     \begin{itemize}
-      \item Om variablerna ej är oberoende får vi åtminstone en övre gräns -- 
-        dock skulle vi vara mer intresserade av en nedre gräns.
+      \item Om variablerna ej är oberoende får vi åtminstone en övre gräns.
+
+      \item En lägre gräns vore dock mer intresserant --- dock omöjligt att få.
 
       \item Denna metod används i~\cite{Komanduri2011opa} för att få en 
         realistisk uppskattning av den riktiga entropin för användarnas val av 
@@ -675,7 +676,7 @@
 \end{frame}
 
 \begin{frame}
-  \begin{example}{Ett alternativ}
+  \begin{example}[Ett alternativ]
     \begin{itemize}
       \item Vi har 26 bokstäver, 10 siffror och (uppskattningsvis använder vi) 
         10 specialtecken.
@@ -693,7 +694,7 @@
 \end{frame}
 
 \begin{frame}
-  \begin{example}
+  \begin{example}[Ytterligare alternativ]
     \begin{itemize}
       \item Vi har 125\,000 svenska ord: ger \(\log 125\,000\approx 17\) bitar 
         entropi per ord.
@@ -717,6 +718,13 @@
         sannolikhetsfördelning.
 
     \end{itemize}
+  \end{remark}
+\end{frame}
+
+\begin{frame}
+  \begin{remark}
+    Vad händer när vi kräver att två stora, två små och två siffror ska ingå 
+    i lösenordet?
   \end{remark}
 \end{frame}
 
