@@ -10,7 +10,8 @@
 \usepackage{multicol}
 \usepackage{amssymb,amsmath,amsthm}
 \usepackage{booktabs}
-\usepackage[squaren,binary]{SIunits}
+%\usepackage[squaren,binary]{SIunits}
+\usepackage[binary-units]{siunitx}
 \usepackage[strict]{csquotes}
 \usepackage{cleveref}
 \usepackage{hhcount}
@@ -475,16 +476,16 @@
     \begin{itemize}
       \item Our IDS is this good:
         \begin{itemize}
-          \item It detects malicious traffic with \unit{99}{\%} certainty (true 
-            positives).
-          \item It discards benign traffic with \unit{99}{\%} certainty (true 
-            negatives).
+          \item It detects malicious traffic with \SI{99}{\percent} certainty 
+            (true positives).
+          \item It discards benign traffic with \SI{99}{\percent} certainty 
+            (true negatives).
         \end{itemize}
 
         \pause{}
 
-      \item \emph{Assume} \unit{0.5}{\%} of \enquote{the traffic} consist of 
-        attacks.
+      \item \emph{Assume} \SI{0.5}{\percent} of \enquote{the traffic} consist 
+        of attacks.
 
         \pause{}
 
@@ -525,40 +526,39 @@
 
 \section{Shannon entropy}
 
-\subsection{Definition av Shannonentropi}
+\subsection{Definition of Shannon Entropy}
 
 \begin{frame}
-  \begin{definition}[Shannonentropi]
-    Låt \(\stoch X\) vara en stokastisk variabel som antar värden från en 
-    ändlig mängd \(X\).
-    Då definieras \emph{Shannonentropin} för den stokastiska variabeln 
-    \(\stoch X\) som
-    \begin{align*}
-      H(\stoch X) = -K \sum_{x\in X} \Pr(\stoch X = x)\log \Pr(\stoch X = x),
-    \end{align*}
-    där \(K\) oftast väljs som \(\frac{1}{\log 2}\).
-    Då sägs entropin anges i enheten bitar (\bit).
+  \begin{definition}[Shannon entropy]
+    \begin{itemize}
+      \item Stochastic variable \(\stoch X\) assumes values from \(X\).
+      \item Shannon entropy \(H(\stoch X)\) defined as
+        \begin{align*}
+          H(\stoch X) = -K \sum_{x\in X} \Pr(\stoch X = x)\log \Pr(\stoch X = x),
+        \end{align*}
+      \item Usually \(K = \frac{1}{\log 2}\) to give entropy in unit bits  
+        (\si{\bit}).
+    \end{itemize}
   \end{definition}
 \end{frame}
 
 \begin{frame}
-  \begin{itemize}
-    \item Vi kan se Shannonentropin för en stokastisk variabel som hur mycket 
-      \enquote{val} som varje utfall innebär.
+  \begin{block}{Shannon entry can be seen as \dots}
+    \begin{itemize}
+      \item \dots how much choice in each event.
 
-    \item Den kan även tolkas som osäkerheten för ett utfall för variabeln.
+      \item \dots the uncertainty of each event.
 
-    \item Eller hur många bitar som krävs för att lagra resultatet av ett 
-      utfall.
+      \item \dots how many bits to store each event.
 
-    \item Och då naturligtvis ett mått på hur mycket information den 
-      producerar.
+      \item \dots how much information it produces.
 
-  \end{itemize}
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 \begin{frame}
-  \begin{example}[Singla slant]
+  \begin{example}[Toss a coin]
     Låt \(\stoch S\) beteckna en stokastisk variabel som antar värden ur 
     mängden \(S = \{krona, klave\}\).
     Då har vi att
