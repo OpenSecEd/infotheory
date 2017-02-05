@@ -647,48 +647,51 @@
 \end{frame}
 
 
-\section[Tillämpningar]{Tillämpningar inom säkerhet}
+\section[Applications]{Application in security}
 
-\subsection{Lösenord}
+\subsection{Passwords}
 
 \begin{frame}
-  \begin{block}{Idé~\cite{Komanduri2011opa}}
-    Kan använda \(H(x_1, x_2, \ldots, x_n) \leq H(x_1) + H(x_2) + \cdots 
-      + H(x_n)\) för att räkna på entropin hos lösenord, där \(x_i\) är olika 
-    egenskaper hos lösenordet.
+  \begin{block}{Idea~\cite{Komanduri2011opa}}
+    \begin{itemize}
+      \item Look at different aspects of passwords individually, then 
+        summarize.
+      \item Can use \(H(x_1, x_2, \ldots, x_n) \leq H(x_1) + H(x_2) + \cdots 
+          + H(x_n)\).
+      \item This allows us to reason about bounds.
+    \end{itemize}
   \end{block}
+\end{frame}
 
+\begin{frame}
   \begin{example}
     \begin{itemize}
-      \item Vi vill helst ha \emph{oberoende} stokastiska variabler.
-
-      \item Vi har tillgång till exempelvis:
+      \item We can look at properties such as:
         \begin{itemize}
-          \item längd,
-          \item antal och placering för varje teckenklass,
-          \item innehållet i varje tecken.
+          \item length,
+          \item number of and placement of character classes,
+          \item the actual characters,
+          \item \dots
         \end{itemize}
-
-      \item Dessa är inte oberoende.
-
-      \item Summan av entropierna för respektive del ger \emph{övre gräns} för 
-        entropin för sannolikhetsfördelningen av lösenord.
-
     \end{itemize}
   \end{example}
+
+  \pause{}
+
+  \begin{remark}
+    \begin{itemize}
+      \item These are \emph{not independent}.
+      \item The sum will be an \emph{upper bound}.
+    \end{itemize}
+  \end{remark}
 \end{frame}
 
 \begin{frame}
   \begin{remark}
     \begin{itemize}
-      \item Om variablerna ej är oberoende får vi åtminstone en övre gräns.
-
-      \item En lägre gräns vore dock mer intresserant --- dock omöjligt att få.
-
-      \item Denna metod används i~\cite{Komanduri2011opa} för att få en 
-        realistisk uppskattning av den riktiga entropin för användarnas val av 
-        lösenord.
-
+      \item With an upper bound we know it's not possible to do better.
+      \item With an average we know how well most users will do.
+      \item With a lower bound we have a guarantee --- not possible!
     \end{itemize}
   \end{remark}
 \end{frame}
@@ -701,62 +704,78 @@
   \end{figure}
 \end{frame}
 
-\begin{frame}{En förklaring av xkcd}
-  \begin{itemize}
-    \item Vi har 1 miljon engelska ord: ger \(\log 10^6 \approx 20\) bitar 
-      entropi.
-      (xkcd använder 16 bitar, vilket ger ca 70\,000 ord, alla ord i engelskan 
-      är inte vanliga.)
+%\begin{frame}{En förklaring av xkcd}
+%  \begin{itemize}
+%    \item Vi har 1 miljon engelska ord: ger \(\log 10^6 \approx 20\) bitar 
+%      entropi.
+%      (xkcd använder 16 bitar, vilket ger ca 70\,000 ord, alla ord i engelskan 
+%      är inte vanliga.)
+%
+%    \item Vi kan ha inledande versal: ger 1 bit entropi.
+%
+%    \item Vi har några vanliga substitutioner: uppskattningsvis 10 stycken, 
+%      d.v.s.~3 bitar entropi.
+%
+%    \item Vi har specialtecken (ej substitution): uppskattningsvis 4 bitar 
+%      entropi.
+%
+%    \item Vi har siffror: \(\log 10\approx 3\).
+%
+%    \item Ordningen på specialtecknet och siffran: ger 1 bit entropi.
+%
+%    \item Totalt 32 bitar entropi:
+%      \begin{itemize}
+%        \item Tar minst 50 dagar med 1\,000 gissningar per sekund.
+%        \item Tar strax över en timme med 1\,000\,000 gissningar per sekund.
+%      \end{itemize}
+%
+%  \end{itemize}
+%\end{frame}
 
-    \item Vi kan ha inledande versal: ger 1 bit entropi.
+\begin{frame}
+  \begin{example}[Standard password]
+    \begin{itemize}
+      \item We have
+        \begin{itemize}
+          \item 26 alphabetic characters,
+          \item 10 numbers,
+          \item 10 special characters (approximately).
+        \end{itemize}
 
-    \item Vi har några vanliga substitutioner: uppskattningsvis 10 stycken, 
-      d.v.s.~3 bitar entropi.
+      \item This yields \(\log( 2\times 26 + 10 + 10 ) = \log 72 \approx 
+          \SI{6}{\bit}\) per password character.
 
-    \item Vi har specialtecken (ej substitution): uppskattningsvis 4 bitar 
-      entropi.
+      \item A 10-character \emph{uniformly randomly} generated password 
+        contains \SI{60}{\bit}.
+    \end{itemize}
+  \end{example}
 
-    \item Vi har siffror: \(\log 10\approx 3\).
+  \pause{}
 
-    \item Ordningen på specialtecknet och siffran: ger 1 bit entropi.
-
-    \item Totalt 32 bitar entropi:
-      \begin{itemize}
-        \item Tar minst 50 dagar med 1\,000 gissningar per sekund.
-        \item Tar strax över en timme med 1\,000\,000 gissningar per sekund.
-      \end{itemize}
-
-  \end{itemize}
+  \begin{remark}
+    What happens when we require two upper and two lower-case characters, two 
+    numbers must be included?
+  \end{remark}
 \end{frame}
 
 \begin{frame}
-  \begin{example}[Ett alternativ]
+  \begin{example}[Four-word passphrase]
     \begin{itemize}
-      \item Vi har 26 bokstäver, 10 siffror och (uppskattningsvis använder vi) 
-        10 specialtecken.
-
-      \item Detta ger totalt 72 möjliga tecken: ger \(\log 72\approx 6\) bitar 
-        entropi per tecken.
-
-      \item Ett 10 tecken långt \emph{slumpmässigt valt} lösenord ger således 
-        60 bitar entropi.
-
-      \item Tar 36\,588 år med 1\,000\,000 gissningar per sekund.
-
+      \item We have 125\,000 words in the standard Swedish dictionary.
+      \item This yields \(\log 125\,000\approx \SI{17}{\bit}\) per word.
+      \item A four-word \emph{uniformly randomly} generated passphrase contains
+        \SI{68}{\bit}.
     \end{itemize}
   \end{example}
 \end{frame}
 
 \begin{frame}
-  \begin{example}[Ytterligare alternativ]
+  \begin{example}[Random sentence]
     \begin{itemize}
-      \item Vi har 125\,000 svenska ord: ger \(\log 125\,000\approx 17\) bitar 
-        entropi per ord.
-
-      \item Ett lösenord med fyra slumpmässigt valda ord ger 68 bitar entropi.
-
-      \item Tar 9\,359\,078 år att knäcka med 1\,000\,000 gissningar per sekund.
-
+      \item We estimated the entropy per character in a language.
+      \item It was approximately \(\SI{1.25}{\bit}\) for English.
+      \item A 20-character \emph{uniformly randomly} generated sentence would 
+        yield \SI{25}{\bit}.
     \end{itemize}
   \end{example}
 \end{frame}
@@ -764,76 +783,65 @@
 \begin{frame}
   \begin{remark}
     \begin{itemize}
-      \item Detta bygger på att vi väljer slumpmässigt.
-
-      \item Vi är väldigt dåliga på slumpmässigt.
-
-      \item Entropin kommer alltså att vara lägre då vi inte har en likformig 
-        sannolikhetsfördelning.
-
+      \item All these require uniform randomness.
+      \item Humans are bad at remembering random things.
+      \item Thus they will choose non-randomly.
+      \item The entropy will thus be (possibly much) lower.
     \end{itemize}
   \end{remark}
 \end{frame}
 
+\subsection{Research about human chosen passwords}
+
+\begin{frame}
+  \begin{example}[\citetitle{Bonneau2012lpo}~\cite{Bonneau2012lpo}]
+    \begin{itemize}
+      \item Investigates how linguistics affect the choice of multi-word 
+        passphrases.
+
+      \item Users don't choose them randomly, prefer adapted to natural 
+        language.
+
+      \item \enquote{correct horse battery staple} is preferred to 
+        \enquote{horse correct battery staple} since the first is more 
+        grammatically correct.
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[\citetitle{Kuo2006hso}~\cite{Kuo2006hso}]
+    \begin{itemize}
+      \item Studied how users creates easy-to-remember passwords.
+
+      \item Also investigated the strength of phrase-based passwords.
+
+      \item E.g.\ Google's example \enquote{To be or not to be, that is the 
+          question}\footnote{%
+          URL\@: 
+          \protect\url{http://www.lightbluetouchpaper.org/2011/11/08/want-to-create-a-really-strong-password-dont-ask-google/}.
+        } which results in \enquote{2bon2btitq}.
+
+      \item This particular password has apparently been used by many \dots
+    \end{itemize}
+  \end{example}
+\end{frame}
+
 \begin{frame}
   \begin{remark}
-    Vad händer när vi kräver att två stora, två små och två siffror ska ingå 
-    i lösenordet?
+    \begin{itemize}
+      \item There is a PhD thesis on the topic of guessing passwords: 
+        \fullcite{GuessingHumanChosenSecrets}.
+      \item There is even a conference dedicated to passwords: PasswordsCon.
+    \end{itemize}
   \end{remark}
 \end{frame}
 
-\subsection{Forskning om vad som händer när människor väljer}
+\subsection{Identifying information}
 
 \begin{frame}
-  \begin{itemize}
-    \item \citet{Bonneau2012lpo} undersöker hur lingvistiken påverkar valet av 
-      lösenord beståendes av flera ord.
-
-    \item Finner att användarna inte väljer slumpmässiga ord utan föredrar att 
-      välja dem anpassade efter naturligt språk.
-
-    \item Exempelvis \enquote{correct horse battery staple} föredras framför 
-      \enquote{horse correct battery staple} på grund av att det första 
-      alternativet är mer grammatiskt korrekt.
-
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \begin{itemize}
-    \item \citet{Kuo2006hso} gjorde en undersökning av hur användare skapar 
-      lösenord som är lätta att komma ihåg.
-
-    \item Undersökte styrkan hos frasbaserade lösenord:
-      skapas utifrån en mening och förkortas.
-
-    \item Googles exempel \enquote{To be or not to be, that is the 
-        question}\footnote{%
-        URL\@: 
-        \protect\url{http://www.lightbluetouchpaper.org/2011/11/08/want-to-create-a-really-strong-password-dont-ask-google/}.
-      } som ger lösenordet ''2bon2btitq''.
-
-    \item I lösenordsdatabaser har just detta lösenord dykt upp \dots
-
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \begin{itemize}
-    \item Vi kan använda läckta lösenordsdatabaser för att uppskatta entropin 
-      för mänskligt valda lösenord.
-
-    \item Vi borde också kunna uppskatta hur mycket information en given 
-      lösenordspolicy ger om lösenordet genom informationsvinst.
-
-  \end{itemize}
-\end{frame}
-
-\subsection{Identifierande information}
-
-\begin{frame}
-  \begin{example}[Vad får vi ut mest information av?]
-    Får vi ut mest information av stjärntecken eller födelsedag?
+  \begin{example}
+    Do we get more information from zodiac signs or birthdays?
     \begin{align*}
       -\sum_{\text{stjärntecken}} \frac{1}{12} \log\frac{1}{12} &= \log 12 
       \approx 3.58 \\
@@ -841,59 +849,53 @@
       365 \approx 8.51.
     \end{align*}
   \end{example}
-
-  \pause{}
-
-  \begin{remark}
-    \begin{itemize}
-      \item Om jag ska gissa er födelsedag och får veta i vilket stjärntecken 
-        ni är födda gör jag en informationsvinst på ca 3.58 bitar.
-      \item Då återstår ca 5 bitar att gissa, detta stämmer överens med \(\log 
-        30\approx 4.91\).
-    \end{itemize}
-  \end{remark}
 \end{frame}
 
 \begin{frame}
   \begin{exercise}
-    Hur mycket information behövs för att unikt identifiera en individ?
+    How much information do we need to uniquely identify an individual?
   \end{exercise}
 \end{frame}
 
 \begin{frame}
   \begin{example}
     \begin{itemize}
-      \item Det fanns \(n = 6\,973\,738\,433\) människor på jorden, vid något 
-        tillfälle under 2011 enligt Världsbanken.
+      \item Sometime during 2011 there were \(n = 6\,973\,738\,433\)\footnote{%
+          According to the World Bank.
+        } people on earth.
 
-      \item Att ge varje person en unik identifierare kräver \(\log 
-          n = 32.7\approx 33\) bitar information.
-
+      \item To give everyone a unique identifier we need \(\log n = 32.7\approx 
+          33\) bits of information.
     \end{itemize}
   \end{example}
 \end{frame}
 
 \begin{frame}
-  \begin{itemize}
-    \item Electronic Frontier Foundation (EFF) genomförde en 
-      undersökning~\cite{Eckersley2010hui} hur mycket identifierande 
-      information en webbläsare delar med sig av.
+  \begin{block}{Identifying information in browsers}
+    \begin{itemize}
+      \item Electronic Frontier Foundation (EFF) studied~\cite{Eckersley2010hui} 
+        how much information a web-browser shares.
 
-    \item Går att testa sin webbläsare på \url{http://panopticlick.eff.org/}.
+      \item You can try your browser in \url{http://panopticlick.eff.org/}.
+    \end{itemize}
+  \end{block}
 
-    \item Med min Firefox-läsare och alla tillägg uppskattar de att jag ger 
-      ifrån mig 21.45 bitar med identifierande information.
+  \pause{}
 
-    \item De har genomfört 2\,860\,696 test totalt.
+  \begin{example}[My browser]
+    \begin{itemize}
+      \item My Firefox-browser with all addons gave 21.45 bits of entropy.
 
-  \end{itemize}
+      \item Then the number of tested users were 2\,860\,696.
+    \end{itemize}
+  \end{example}
 \end{frame}
 
 \begin{frame}
   \begin{figure}
     \includegraphics[height=0.7\textheight]{collusion.png}
-    \caption{Skärmdump från Collusion (sedemera Lightbeam) för Firefox över 
-    alla sidor som spårar mig med hjälp av denna information.}
+    \caption{Screenshot from Collusion (now Lightbeam) for Firefox.
+      Map over all pages that track me using this information.}
   \end{figure}
 \end{frame}
 
