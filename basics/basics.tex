@@ -189,89 +189,100 @@
 
 \begin{frame}
   \begin{example}[Toss a coin]
-    Låt \(\stoch S\) beteckna en stokastisk variabel som antar värden ur 
-    mängden \(S = \{krona, klave\}\).
-    Då har vi att
-    \begin{align*}
-      \Pr(\stoch S = krona) = p_{krona} = \Pr(\stoch S = klave) &= p_{klave} 
-      = \frac{1}{2}.
-    \end{align*}
-    Entropin för \(\stoch S\) är följaktligen
-    \begin{align*}
-      H(\stoch S) &= -\left( p_{krona}\log p_{krona} + p_{klave}\log p_{klave} 
-      \right) \\
-        &= -2\times \frac{1}{2}\log \frac{1}{2} = \log 2 = 1.
-    \end{align*}
+    \begin{itemize}
+      \item Stochastic variable \(\stoch{S}\) takes values from \(S = \{h, 
+          t\}\).
+      \item We have \(\Pr(\stoch S = h) = \Pr(\stoch S = t) = \frac{1}{2}.\)
+      \item This gives \(H(\stoch S)\) as follows:
+        \begin{align*}
+          H(\stoch S) &= -\left( \Pr(\stoch S = h)\log \Pr(\stoch S = h) 
+            + \Pr(\stoch S = t) \log \Pr(\stoch S = t) \right) \\
+          &= -2\times \frac{1}{2}\log \frac{1}{2} = \log 2 = 1.
+        \end{align*}
+    \end{itemize}
   \end{example}
 \end{frame}
 
 \begin{frame}
-  \begin{example}[Kasta tärning]
-    Låt \(\stoch T\) beteckna en stokastisk variabel som antar värden ur 
-    mängden \(T = \{\fcdice{1}, \fcdice{2}, \fcdice{3}, \fcdice{4}, \fcdice{5}, 
-      \fcdice{6}\}\).
-    Då har vi att \(\Pr(\stoch T = t) = \frac{1}{6}\) för alla \(t\in T\).
-    Följaktligen är entropin för \(\stoch T\)
-    \begin{align*}
-      H(\stoch T) &= -\sum_{t\in T} \Pr(\stoch T = t)\log\Pr(\stoch T = t) \\
-      &= -6\times \frac{1}{6}\log\frac{1}{6} = \log 6 \approx 2.585.
-    \end{align*}
+  \begin{example}[Roll a die]
+    \begin{itemize}
+      \item Stochastic variable \(\stoch D\) takes values from \(D 
+          = \{\fcdice{1}, \fcdice{2}, \fcdice{3}, \fcdice{4}, \fcdice{5}, 
+          \fcdice{6}\}\).
+      \item We have \(\Pr(\stoch D = d) = \frac{1}{6}\) for all \(d\in D\).
+      \item The entropy \(H(\stoch D)\) is as follows:
+        \begin{align*}
+          H(\stoch D) &= -\sum_{d\in D} \Pr(\stoch D = d)\log\Pr(\stoch D = d) \\
+          &= -6\times \frac{1}{6}\log\frac{1}{6} = \log 6 \approx 2.585.
+        \end{align*}
+    \end{itemize}
   \end{example}
 \end{frame}
 
 \begin{frame}
-  \begin{itemize}
-    \item Betyder alltså att det svårare att förutspå ett tärningskast än 
-      slantsingling.
+  \begin{remark}
+    \begin{itemize}
+      \item If we didn't know already, we now know that a roll of a die \dots
+        \begin{itemize}
+          \item contains more \enquote{choice} than a coin toss.
+          \item is more uncertain to predict than a coin toss.
+          \item requires more bits to store than a coin toss.
+          \item produces more information than a coin toss.
+        \end{itemize}
 
-    \item För att lagra resultaten av tärningskasten krävs mer utrymme.
-
-    \item Låt oss förvanska tärningen en aning och se vad som händer \dots
-  \end{itemize}
+      \item What if we modify the die a bit?
+    \end{itemize}
+  \end{remark}
 \end{frame}
 
 \begin{frame}
-  \begin{example}[Tärningskast igen]
-    En ny stokastisk variabel \(T^\prime\) antar värden ur \(T = \{\fcdice{1}, 
-      \fcdice{2}, \fcdice{3}, \fcdice{4}, \fcdice{5}, \fcdice{6}\}\).
-    Låt nu \(\Pr(\stoch T^\prime = \fcdice{6}) = \frac{9}{10}\) och 
-    \(\Pr(\stoch T^\prime = t) = \frac{1}{5\times 10}\) för alla \(t\neq 
-      \fcdice{6}\).
-    Detta ger entropin
-    \begin{align*}
-      H(\stoch T^\prime) &= -\left( \frac{9}{10}\log\frac{9}{10} + \sum_{t\neq 
-      6} \frac{1}{50}\log\frac{1}{50} \right) \\
-        &= -\frac{9}{10}\log\frac{9}{10} -5\times\frac{1}{50}\log\frac{1}{50} 
-        \\
-        &= -\frac{9}{10}\log\frac{9}{10} -\frac{1}{10}\log\frac{1}{50} \approx 
-        0.486.
-    \end{align*}
+  \begin{example}[Roll of a modified die]
+    \begin{itemize}
+      \item Stochastic variable \(D'\) taking values from \(D\).
+      \item We now have \(\Pr(\stoch D' = \fcdice{6}) = \frac{9}{10}\) and 
+        \(\Pr(\stoch D' = d) = \frac{1}{10}\times\frac{1}{5}\) for \(d\neq 
+          \fcdice{6}\).
+      \item This yields
+        \begin{align*}
+          H(\stoch D') &= -\left( \frac{9}{10}\log\frac{9}{10} + \sum_{d\neq 6} 
+            \frac{1}{50}\log\frac{1}{50} \right) \\
+          &= -\frac{9}{10}\log\frac{9}{10} -5\times\frac{1}{50}\log\frac{1}{50} 
+          \\
+          &= -\frac{9}{10}\log\frac{9}{10} -\frac{1}{10}\log\frac{1}{50} \approx 
+          0.486.
+        \end{align*}
+    \end{itemize}
   \end{example}
 \end{frame}
 
 \begin{frame}
-  \begin{itemize}
-    \item Det betyder att det är mycket enklare att förutspå ett kast med denna 
-      förvanskade tärning.
-    \item Det krävs mindre utrymme att lagra utfallen.
-  \end{itemize}
+  \begin{remark}
+    \begin{itemize}
+      \item This die is much easier to predict.
+      \item It produces much less information --- less than a coin toss!
+      \item Requires less data for storage etc.
+    \end{itemize}
+  \end{remark}
 \end{frame}
 
-\subsection{Egenskaper för Shannonentropi}
+\subsection{Properties for Shannon entropy}
 
 \begin{frame}
   \begin{definition}
-    Låt \(f\colon \R\to \R\) vara en funktion sådan att
-    \begin{align*}
-      tf(x) + (1-t)f(y) \leq f(tx + (1-t)y),
-    \end{align*}
-    då säger vi att \(f\) är \emph{konkav}.
-    Vid strikt olikhet för \(x\neq y\) säger vi att \(f\) är \emph{strikt 
-    konkav}.
+    \begin{itemize}
+      \item Function \(f\colon \R\to \R\) such that
+        \begin{align*}
+          tf(x) + (1-t)f(y) \leq f(tx + (1-t)y),
+        \end{align*}
+
+      \item Then \(f\) is \emph{concave}.
+      \item With strict inequality for \(x\neq y\) we say that \(f\) is 
+        \emph{strictly concave}.
+    \end{itemize}
   \end{definition}
 
   \begin{example}
-    \(\log\) är en strikt konkav funktion.
+    \(\log\colon \R\to \R\) is strictly concave.
   \end{example}
 \end{frame}
 
@@ -310,14 +321,17 @@
 %\end{frame}
 
 \begin{frame}
-  \begin{theorem}[Jensens olikhet]
-    Om \(f\) är en strikt konkav funktion och \(a_1, a_2,\ldots, a_n\) är 
-    reella tal strikt större än noll och sådana att \(\sum_{i=1}^n a_i = 1\) då 
-    gäller att
-    \begin{align*}
-      \sum_{i=1}^n a_i f(x_i) \leq f\left( \sum_{i=1}^n a_i x_i\right),
-    \end{align*}
-    med likhet om och endast om \(x_1 = x_2 = \cdots = x_n\).
+  \begin{theorem}[Jensen's inequality]
+    \begin{itemize}
+      \item Strictly concave function \(f\colon \R\to \R\).
+      \item Real numbers \(a_1, a_2,\ldots, a_n > 0\) such that \(\sum_{i=1}^n 
+          a_i = 1\).
+      \item Then we have
+        \begin{align*}
+          \sum_{i=1}^n a_i f(x_i) \leq f\left( \sum_{i=1}^n a_i x_i\right).
+        \end{align*}
+      \item We have equality iff \(x_1 = x_2 = \cdots = x_n\).
+    \end{itemize}
   \end{theorem}
 \end{frame}
 
@@ -362,39 +376,44 @@
 
 \begin{frame}
   \begin{theorem}
-    Låt \(\stoch X\) vara en stokastisk variabel med sannolikhetsdistribution 
-    som antar värdena \(p_1, p_2,\ldots, p_n\), där \(p_i > 0\) för \(1\leq 
-    i\leq n\).
-    Då är \(H(\stoch X)\leq \log n\), med likhet om och endast om \(p_1 = p_2 
-    = \cdots = p_n = 1/n\).
+    \begin{itemize}
+      \item Stochastic variable \(\stoch X\) with probability distribution 
+        \begin{equation*}
+          p_1, p_2,\ldots, p_n, \text{ where } p_i > 0 \text{ for } 1\leq i\leq 
+          n.
+        \end{equation*}
+      \item Then \(H(\stoch X)\leq \log n\).
+      \item Equality iff \(p_1 = p_2 = \cdots = p_n = 1/n\).
+    \end{itemize}
   \end{theorem}
 \end{frame}
 
 \begin{frame}
   \begin{proof}
-    Satsen följer direkt från Jensens olikhet:
+    The theorem follows directly from Jensen's inequality:
     \begin{align*}
       H(\stoch X) &= -\sum_{i=1}^n p_i\log p_i = \sum_{i=1}^n 
       p_i\log\frac{1}{p_i} \\
       &\leq \log\sum_{i=1}^n p_i\frac{1}{p_i} = \log n.
     \end{align*}
-    Med likhet om och endast om \(p_1 = p_2 = \cdots = p_n\).
+    With equality iff \(p_1 = p_2 = \cdots = p_n\).
   \end{proof}
 \end{frame}
 
 \begin{frame}
   \begin{corollary}
-    \(H(\stoch X) = 0\) om och endast om \(\Pr(\stoch X = x) = 1\) för något 
-    \(x\in X\) och \(\Pr(\stoch X = x^\prime) = 0\) för alla \(x\neq x^\prime 
-    \in X\).
+    \(H(\stoch X) = 0\) iff \(\Pr(\stoch X = x) = 1\) for some \(x\in X\) and 
+    \(\Pr(\stoch X = x^\prime) = 0\) for all \(x\neq x^\prime \in X\).
   \end{corollary}
 
   \begin{proof}
-    Om \(\Pr(\stoch X = x) = 1\) då är \(n = 1\) och således \(H(\stoch X) 
-    = \log n = 0\).
+    \begin{itemize}
+      \item If \(\Pr(\stoch X = x) = 1\), then \(n = 1\) and thus \(H(\stoch X) 
+          = \log n = 0\).
 
-    Om \(H(\stoch X) = 0\), då måste \(\log n = 0\).
-    Följaktligen är \(n = 1\).
+      \item If \(H(\stoch X) = 0\), then \(H(\stoch X) \leq \log n = 0\).
+        Thus \(n = 1\).
+    \end{itemize}
   \end{proof}
 \end{frame}
 
@@ -418,12 +437,14 @@
 
 \begin{frame}
   \begin{lemma}
-    Låt \(\stoch X\) och \(\stoch Y\) vara stokastiska variabler.
-    Då gäller att
-    \begin{align*}
-      H(\stoch X, \stoch Y)\leq H(\stoch X) + H(\stoch Y),
-    \end{align*}
-    med likhet om och endast om \(\stoch X\) och \(\stoch Y\) är oberoende.
+    \begin{itemize}
+      \item Stochastic variables \(\stoch X\) and \(\stoch Y\).
+      \item Then we have
+        \begin{align*}
+          H(\stoch X, \stoch Y)\leq H(\stoch X) + H(\stoch Y).
+        \end{align*}
+      \item Equality iff \(\stoch X\) and \(\stoch Y\) are independent.
+    \end{itemize}
   \end{lemma}
 \end{frame}
 
@@ -443,19 +464,27 @@
 %  \end{proof}
 %\end{frame}
 
-\subsection{Betingad entropi}
+\subsection{Conditional entropy}
 
 \begin{frame}
-  \begin{definition}[Betingad entropi]
-    Vi definierar den \emph{betingade entropin} \(H(\stoch Y\mid \stoch X)\) 
-    som
-    \begin{align*}
-      H(\stoch Y\mid \stoch X) = %-\sum_{i,j} \Pr(i,j)\log \Pr(j\mid i)
-        -\sum_y\sum_x \Pr(\stoch Y = y)\Pr(\stoch X = x\mid y)\log \Pr(\stoch 
-        X = x\mid y).
-    \end{align*}
-    Denna mäter osäkerheten hos \(\stoch X\) som inte avslöjas av \(\stoch Y\).
+  \begin{definition}[Conditional entropy]
+    \begin{itemize}
+      \item Define \emph{conditional entropy} \(H(\stoch Y\mid \stoch X)\) 
+        as
+        \begin{align*}
+          H(\stoch Y\mid \stoch X) = %-\sum_{i,j} \Pr(i,j)\log \Pr(j\mid i)
+          -\sum_y\sum_x \Pr(\stoch Y = y)\Pr(\stoch X = x\mid y)\log \Pr(\stoch 
+          X = x\mid y).
+        \end{align*}
+    \end{itemize}
   \end{definition}
+
+  \pause{}
+
+  \begin{remark}
+    This is the uncertainty in \(\stoch Y\) which is not revealed by \(\stoch 
+      X\).
+  \end{remark}
 \end{frame}
 
 \begin{frame}
@@ -472,6 +501,11 @@
 %\begin{frame}
   \begin{corollary}
     \(H(\stoch X\mid \stoch Y) \leq H(\stoch X)\).
+  \end{corollary}
+
+  \begin{corollary}
+    \(H(\stoch X\mid \stoch Y) = H(\stoch X)\) iff \(\stoch X\) and \(\stoch 
+      Y\) independent.
   \end{corollary}
 \end{frame}
 %
@@ -490,42 +524,57 @@
 
 \begin{frame}
   \begin{definition}
-    Låt \(L\) vara ett naturligt språk och \(\stoch P^n\) vara en stokastisk 
-    variabel som har sannolikhetsfördelningen av strängar av längd \(n\) 
-    i språket \(L\).
-    Vi definierar \emph{entropin} för språket \(L\) att vara
-    \begin{align*}
-      H_L = \lim_{n\to \infty}\frac{H(\stoch P^n)}{n}
-    \end{align*}
-    och \emph{redundansen} för \(L\) att vara
-    \begin{align*}
-      R_L = 1 - \frac{H_L}{\log |P|}.
-    \end{align*}
+    \begin{itemize}
+      \item Natural language \(L\).
+      \item Stochastic variable \(\stoch P^n_L\) of strings of length \(n\).
+      \item Entropy of \(L\) defined as
+        \begin{align*}
+          H_L = \lim_{n\to \infty}\frac{H(\stoch P^n_L)}{n}.
+        \end{align*}
+      \item Redundancy in \(L\) is
+        \begin{align*}
+          R_L = 1 - \frac{H_L}{\log |P_L|}.
+        \end{align*}
+    \end{itemize}
   \end{definition}
 \end{frame}
 
 \begin{frame}
-  \begin{itemize}
-    \item Detta betyder att vi har \(H_L\) bitar information per tecken 
-      i språket \(L\).
+  \begin{remark}
+    Meaning we have \(H_L\) bits per character in \(L\).
+  \end{remark}
 
-    \item Experiment har visat att entropin för engelska är mellan 1 och 1.5 
-      bitar per tecken.
+  \begin{example}[\cite{Shannon1948amt}]
+    \begin{itemize}
+      \item Entropy of 1--1.5 bits per character in English.
+      \item Redundancy of approximately \(1 - \frac{1.25}{\log 26} = 0.61\).
+    \end{itemize}
+  \end{example}
 
-    \item Redundansen blir följaktligen ungefär \(1 - \frac{1.25}{\log 26} 
-      = 0.61\).
+\end{frame}
 
-    \item Shannon påpekar i sin artikel~\cite{Shannon1948amt} att redundansen 
-      måste vara omkring 0.5 för att tvådimensionella korsord ska vara 
-      meningsfulla.
+\begin{frame}
+  \begin{example}[\cite{Shannon1948amt}]
+    Two-dimensional cross-word puzzles requires redundancy of approximately 
+    \(0.5\).
+  \end{example}
 
-    \item Redundansen i \enquote{SMS-svenska} är lägre än i vanlig svenska: 
-      jämför \enquote{också} med \enquote{oxå}.
+  \begin{example}
+    \begin{itemize}
+      \item Redundancy of \enquote{SMS languages} is lower than for 
+        \enquote{non-SMS languages}.
 
-    \item Lägre redundans ger effektivare användning, men kanske fler 
-      \enquote{va?} vid tal.
+      \item Compare \enquote{också} and \enquote{oxå}.
 
-  \end{itemize}
+    \end{itemize}
+  \end{example}
+
+  \begin{remark}
+    \begin{itemize}
+      \item Lower redundancy is more space-efficient.
+      \item Incurs more errors.
+    \end{itemize}
+  \end{remark}
 \end{frame}
 
 %\begin{frame}
@@ -542,31 +591,35 @@
 %  \end{itemize}
 %\end{frame}
 
-\subsection{Informationsvinst}
+\subsection{Information gain}
 
 \begin{frame}
   \begin{definition}
-    Låt \(U\) vara mängden av möjliga utfall och sannolikheten för utfall \(i\) 
-    betecknas \(p_i\).
-    Om vi får veta att utfallet är i en delmängd \(A\subset U\) definierar vi 
-    \emph{informationsvinsten} \(G(A\mid U)\) som
-    \begin{align*}
-      G(A\mid U) = \log\frac{1}{\Pr(A)} = -\log\Pr(A),
-    \end{align*}
-    där \(\Pr(A) = \sum_{i\in A} p_i\).
+    \begin{itemize}
+      \item Set \(U\) of possible outcomes.
+      \item Probability of outcome \(u\in U\) denoted \(p_u\).
+      \item We learn that some \emph{unknown} outcome is in \(A\subset U\).
+      \item Then the \emph{information gain} \(G(A\mid U)\) is defined as
+        \begin{align*}
+          G(A\mid U) = \log\frac{1}{\Pr(A)} = -\log\Pr(A),
+        \end{align*}
+        where \(\Pr(A) = \sum_{i\in A} p_i\).
+    \end{itemize}
   \end{definition}
 \end{frame}
 
 \begin{frame}
-  \begin{example}[Tärningskast igen]
-    Vi gör ett kast med en perfekt tärning.
-    Om vi får veta att tärningskastet är ett jämnt tal har vi fått
-    \begin{align*}
-      -\log\left( \frac{1}{6} + \frac{1}{6} + \frac{1}{6}\right) =
-      -\log\frac{3}{6} = \log\frac{6}{3} = \log 2 = 1
-    \end{align*}
-    bit informaton.
-    Osäkerheten som återstår är således ungefär 1.58 bitar.
+  \begin{example}[Roll of dice again]
+    \begin{itemize}
+      \item Someone rolls and we should guess the result, \(\frac{1}{6}\) 
+        chance.
+      \item We learn that it was an even number, we gain
+        \begin{align*}
+          -\log\left( \frac{1}{6} + \frac{1}{6} + \frac{1}{6}\right) =
+          -\log\frac{3}{6} = \log\frac{6}{3} = \log 2 = 1.
+        \end{align*}
+      \item The remaining uncertainty is \SI{1.58}{\bit}.
+    \end{itemize}
   \end{example}
 
   \pause{}
@@ -582,13 +635,14 @@
 \end{frame}
 
 \begin{frame}
-  \begin{example}[Ytterligare tärningskast]
-    Vi får veta att tärningen visar mindre än fem.
-    Då har vi fått
-    \begin{align*}
-      -\log\left( 5\times\frac{1}{6}\right) = \log\frac{6}{5}\approx 0.26
-    \end{align*}
-    bitar information.
+  \begin{example}[Dice yet again]
+    \begin{itemize}
+      \item We learn the die show less than five.
+      \item This yields
+        \begin{align*}
+          -\log\left( 5\times\frac{1}{6}\right) = \log\frac{6}{5}\approx 0.26
+        \end{align*}
+    \end{itemize}
   \end{example}
 \end{frame}
 
