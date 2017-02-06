@@ -520,7 +520,7 @@
 %  \end{theorem}
 %\end{frame}
 
-\subsection{Informationstäthet och redundans}
+\subsection{Information density and redundancy}
 
 \begin{frame}
   \begin{definition}
@@ -626,7 +626,7 @@
 
   \begin{remark}
     \begin{itemize}
-      \item \(X' = \{\fcdice{1}, \fcdice{3}, \fcdice{5}\}\)
+      \item \(X' = \{\fcdice{2}, \fcdice{4}, \fcdice{6}\}\)
       \item \(H(\stoch X') = - \sum_{x\in X'} \Pr(\stoch X' = x)\log \Pr(\stoch 
           X' = x)\)
       \item I.e.\ \(- 3 \times \frac{1}{3}\log\frac{1}{3} \approx 1.58\).
@@ -637,10 +637,11 @@
 \begin{frame}
   \begin{example}[Dice yet again]
     \begin{itemize}
-      \item We learn the die show less than five.
+      \item We learn the die show less than five, i.e.\ not \fcdice{5} or 
+        \fcdice{6}.
       \item This yields
         \begin{align*}
-          -\log\left( 5\times\frac{1}{6}\right) = \log\frac{6}{5}\approx 0.26
+          -\log\left( 4\times\frac{1}{6}\right) = \log\frac{6}{4}\approx 0.58
         \end{align*}
     \end{itemize}
   \end{example}
