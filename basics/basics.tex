@@ -495,16 +495,31 @@
 
 \begin{frame}
   \begin{theorem}
-    \(H(\stoch X, \stoch Y) = H(\stoch Y) + H(\stoch X\mid \stoch Y)\)
+    \(H(\stoch X, \stoch Y) = {\color{red}H(\stoch X)} + {\color{green}H(\stoch 
+        Y\mid \stoch X)}\)
   \end{theorem}
-%\end{frame}
-%
+
+  \begin{center}
+  \begin{tikzpicture}
+    \def\HX{(0,0) circle (2)}
+    \def\HY{(2,0) circle (2)}
+    \def\HYX{(1,0)}
+    \begin{scope}%[fill opacity=0.75]
+      \fill[green] \HY;
+      \fill[red] \HX;
+      \draw \HX node[left] {$H(X)$};
+      \draw \HY node[right] {$H(Y\mid X)$};
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
 %\begin{frame}
 %  \begin{proof}
 %  \end{proof}
 %\end{frame}
-%
-%\begin{frame}
+
+\begin{frame}
   \begin{corollary}
     \(H(\stoch X\mid \stoch Y) \leq H(\stoch X)\).
   \end{corollary}
