@@ -2,7 +2,6 @@
 all: basics.pdf
 
 SRC+=		basics.tex abstract.tex basics.bib
-SRC+=		probability.tex
 SRC+=		hhcount.sty
 FIGURES+= 	collusion.png
 FIGURES+= 	password_strength.png password_reuse.png encryptic.png
