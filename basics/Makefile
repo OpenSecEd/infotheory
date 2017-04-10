@@ -1,6 +1,8 @@
 .PHONY: all
 all: basics.pdf
 
+LATEXFLAGS+=	-shell-escape
+
 SRC+=		basics.tex abstract.tex basics.bib
 SRC+=		hhcount.sty
 FIGURES+= 	collusion.png

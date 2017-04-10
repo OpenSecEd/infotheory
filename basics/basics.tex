@@ -15,6 +15,7 @@
 \usepackage[strict]{csquotes}
 \usepackage{cleveref}
 \usepackage{hhcount}
+\usepackage{pgfplots}
 
 \setbeamertemplate{bibliography item}[text]
 \usepackage[natbib,style=alphabetic,maxbibnames=99]{biblatex}
@@ -281,6 +282,14 @@
   \begin{example}
     \(\log\colon \R\to \R\) is strictly concave.
   \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{tikzpicture}
+    \begin{axis}[xlabel=$x$,xmin=0.5,ylabel=$\log x$]
+      \addplot gnuplot[id=log]{log(x)};
+    \end{axis}
+  \end{tikzpicture}
 \end{frame}
 
 %\begin{frame}
