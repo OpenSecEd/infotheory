@@ -15,6 +15,7 @@
 \usepackage[strict]{csquotes}
 \usepackage{cleveref}
 \usepackage{hhcount}
+\usepackage{pgfplots}
 
 \setbeamertemplate{bibliography item}[text]
 \usepackage[natbib,style=alphabetic,maxbibnames=99]{biblatex}
@@ -151,9 +152,6 @@
 \end{frame}
 
 
-\input{probability.tex}
-
-
 \section{Shannon entropy}
 
 \subsection{Definition of Shannon Entropy}
@@ -173,7 +171,7 @@
 \end{frame}
 
 \begin{frame}
-  \begin{block}{Shannon entry can be seen as \dots}
+  \begin{block}{Shannon entropy can be seen as \dots}
     \begin{itemize}
       \item \dots how much choice in each event.
 
@@ -248,9 +246,11 @@
             \frac{1}{50}\log\frac{1}{50} \right) \\
           &= -\frac{9}{10}\log\frac{9}{10} -5\times\frac{1}{50}\log\frac{1}{50} 
           \\
-          &= -\frac{9}{10}\log\frac{9}{10} -\frac{1}{10}\log\frac{1}{50} \approx 
-          0.486.
+          &= -\frac{9}{10}\log\frac{9}{10} -\frac{1}{10}\log\frac{1}{50} 
+          \approx 0.701.
         \end{align*}
+      \item Note that the \(\log\) function is the logarithm in base 2 (i.e.\ 
+        \(\log_2\)).
     \end{itemize}
   \end{example}
 \end{frame}
@@ -284,6 +284,14 @@
   \begin{example}
     \(\log\colon \R\to \R\) is strictly concave.
   \end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+  \begin{tikzpicture}
+    \begin{axis}[xlabel=$x$,xmin=0.5,ylabel=$\log x$]
+      \addplot gnuplot[id=log]{log(x)};
+    \end{axis}
+  \end{tikzpicture}
 \end{frame}
 
 %\begin{frame}
@@ -489,16 +497,31 @@
 
 \begin{frame}
   \begin{theorem}
-    \(H(\stoch X, \stoch Y) = H(\stoch Y) + H(\stoch X\mid \stoch Y)\)
+    \(H(\stoch X, \stoch Y) = {\color{red}H(\stoch X)} + {\color{green}H(\stoch 
+        Y\mid \stoch X)}\)
   \end{theorem}
-%\end{frame}
-%
+
+  \begin{center}
+  \begin{tikzpicture}
+    \def\HX{(0,0) circle (2)}
+    \def\HY{(2,0) circle (2)}
+    \def\HYX{(1,0)}
+    \begin{scope}%[fill opacity=0.75]
+      \fill[green] \HY;
+      \fill[red] \HX;
+      \draw \HX node[left] {$H(X)$};
+      \draw \HY node[right] {$H(Y\mid X)$};
+    \end{scope}
+  \end{tikzpicture}
+  \end{center}
+\end{frame}
+
 %\begin{frame}
 %  \begin{proof}
 %  \end{proof}
 %\end{frame}
-%
-%\begin{frame}
+
+\begin{frame}
   \begin{corollary}
     \(H(\stoch X\mid \stoch Y) \leq H(\stoch X)\).
   \end{corollary}
@@ -547,7 +570,8 @@
   \begin{example}[\cite{Shannon1948amt}]
     \begin{itemize}
       \item Entropy of 1--1.5 bits per character in English.
-      \item Redundancy of approximately \(1 - \frac{1.25}{\log 26} = 0.61\).
+      \item Redundancy of approximately \(1 - \frac{1.25}{\log 26} \approx 
+          0.73\).
     \end{itemize}
   \end{example}
 
