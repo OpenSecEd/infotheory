@@ -17,6 +17,8 @@
 \usepackage{hhcount}
 \usepackage{pgfplots}
 
+\usepackage{mathtools}
+
 \setbeamertemplate{bibliography item}[text]
 \usepackage[natbib,style=alphabetic,maxbibnames=99]{biblatex}
 \addbibresource{basics.bib}
@@ -550,6 +552,7 @@
     \begin{itemize}
       \item Natural language \(L\).
       \item Stochastic variable \(\stoch P^n_L\) of strings of length \(n\).
+      \item (Alphabet \(P_L\).)
       \item Entropy of \(L\) defined as
         \begin{align*}
           H_L = \lim_{n\to \infty}\frac{H(\stoch P^n_L)}{n}.
@@ -661,7 +664,7 @@
 \begin{frame}
   \begin{example}[Dice yet again]
     \begin{itemize}
-      \item We learn the die show less than five, i.e.\ not \fcdice{5} or 
+      \item We learn the die show less than five, i.e.\ not \fcdice{5} nor 
         \fcdice{6}.
       \item This yields
         \begin{align*}
@@ -719,6 +722,22 @@
       \item With a lower bound we have a guarantee --- not possible!
     \end{itemize}
   \end{remark}
+\end{frame}
+
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item If a password policy yields low entropy, it implies it's bad.
+      \item If a password policy yields high entropy, it \emph{doesn't} imply 
+        that it's good.
+    \end{itemize}
+  \end{remark}
+
+  \pause
+
+  \begin{exercise}
+    Why?
+  \end{exercise}
 \end{frame}
 
 \begin{frame}
@@ -868,10 +887,10 @@
   \begin{example}
     Do we get more information from zodiac signs or birthdays?
     \begin{align*}
-      -\sum_{\text{stjärntecken}} \frac{1}{12} \log\frac{1}{12} &= \log 12 
+      -\sum_{\mathclap{\text{zodiacs}}} \frac{1}{12} \log\frac{1}{12} &= \log 12 
       \approx 3.58 \\
-      &< -\sum_{\text{dagar på året}} \frac{1}{365} \log\frac{1}{365} = \log 
-      365 \approx 8.51.
+      &< -\sum_{\mathclap{\text{days of year}}} \frac{1}{365} \log\frac{1}{365} 
+      = \log 365 \approx 8.51.
     \end{align*}
   \end{example}
 \end{frame}
@@ -889,8 +908,8 @@
           According to the World Bank.
         } people on earth.
 
-      \item To give everyone a unique identifier we need \(\log n = 32.7\approx 
-          33\) bits of information.
+      \item To give everyone a unique identifier we need \(\log n\approx 
+          32.7\approx 33\) bits of information.
     \end{itemize}
   \end{example}
 \end{frame}
