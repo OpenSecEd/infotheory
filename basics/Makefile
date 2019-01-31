@@ -1,12 +1,15 @@
 .PHONY: all
 all: basics.pdf
 
-LATEXFLAGS+=	-shell-escape
+PDFLATEX= 		pdflatex
+LATEXFLAGS+= 	-shell-escape
+TEX_BBL= 		yes
 
 SRC+=		basics.tex abstract.tex basics.bib
 SRC+=		hhcount.sty
 FIGURES+= 	collusion.png
 FIGURES+= 	password_strength.png password_reuse.png encryptic.png
+FIGURES+= 	ltxobj/basics.log.table
 
 basics.pdf: ${SRC} ${FIGURES}
 
@@ -24,9 +27,19 @@ hhcount.sty hhutils0.sty:
 	wget -O $@ http://tug.ctan.org/tex-archive/usergrps/uktug/baskervi/5_5/$@
 	touch $@
 
+ltxobj/basics.log.table: ltxobj/basics.log.gnuplot
+	cd $(dir $<) && gnuplot $(notdir $<)
 
-.PHONY: clean-depends
-clean-depends:
+ltxobj/basics.log.gnuplot: ltxobj/basics.aux
+
+
+.PHONY: clean
+clean:
+	${RM} basics.pdf
+
+
+.PHONY: distclean
+distclean:
 	${RM} password_strength.png
 	${RM} password_reuse.png
 	${RM} encryptic.png
