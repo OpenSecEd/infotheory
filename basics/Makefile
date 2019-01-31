@@ -1,15 +1,13 @@
 .PHONY: all
 all: basics.pdf
 
-PDFLATEX= 		pdflatex
 LATEXFLAGS+= 	-shell-escape
-TEX_BBL= 		yes
+TEX_OUTDIR= 	.
 
 SRC+=		basics.tex abstract.tex basics.bib
 SRC+=		hhcount.sty
 FIGURES+= 	collusion.png
 FIGURES+= 	password_strength.png password_reuse.png encryptic.png
-FIGURES+= 	ltxobj/basics.log.table
 
 basics.pdf: ${SRC} ${FIGURES}
 
@@ -27,15 +25,11 @@ hhcount.sty hhutils0.sty:
 	wget -O $@ http://tug.ctan.org/tex-archive/usergrps/uktug/baskervi/5_5/$@
 	touch $@
 
-ltxobj/basics.log.table: ltxobj/basics.log.gnuplot
-	cd $(dir $<) && gnuplot $(notdir $<)
-
-ltxobj/basics.log.gnuplot: ltxobj/basics.aux
-
 
 .PHONY: clean
 clean:
 	${RM} basics.pdf
+	${RM} basics.bbl basics.log.gnuplot basics.log.table basics.nav basics.run.xml basics.snm basics.vrb
 
 
 .PHONY: distclean
