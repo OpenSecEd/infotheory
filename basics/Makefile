@@ -4,7 +4,8 @@ all: basics.pdf
 LATEXFLAGS+= 	-shell-escape
 TEX_OUTDIR= 	.
 
-SRC+=		basics.tex abstract.tex basics.bib
+SRC+=		basics.tex preamble.tex basics.bib
+SRC+= 		abstract.tex contents.tex
 SRC+=		hhcount.sty
 FIGURES+= 	collusion.png
 FIGURES+= 	password_strength.png password_reuse.png encryptic.png
