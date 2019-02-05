@@ -9,7 +9,7 @@
 %   15 and 30 frames, all told.
 
 
-\section{Introduction}
+\section{Shannon entropy}
 
 \subsection{History}
 
@@ -54,8 +54,6 @@
   \end{itemize}
 \end{frame}
 
-
-\section{Shannon entropy}
 
 \subsection{Definition of Shannon Entropy}
 
@@ -446,6 +444,65 @@
 %  \end{theorem}
 %\end{frame}
 
+\subsection{Information gain}
+
+\begin{frame}
+  \begin{definition}
+    \begin{itemize}
+      \item Set \(U\) of possible outcomes.
+      \item Probability of outcome \(u\in U\) denoted \(p_u\).
+      \item We learn that some \emph{unknown} outcome is in \(A\subset U\).
+      \item Then the \emph{information gain} \(G(A\mid U)\) is defined as
+        \begin{align*}
+          G(A\mid U) = \log\frac{1}{\Pr(A)} = -\log\Pr(A),
+        \end{align*}
+        where \(\Pr(A) = \sum_{i\in A} p_i\).
+    \end{itemize}
+  \end{definition}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[Roll of dice again]
+    \begin{itemize}
+      \item Someone rolls and we should guess the result, \(\frac{1}{6}\) 
+        chance.
+      \item We learn that it was an even number, we gain
+        \begin{align*}
+          -\log\left( \frac{1}{6} + \frac{1}{6} + \frac{1}{6}\right) =
+          -\log\frac{3}{6} = \log\frac{6}{3} = \log 2 = 1.
+        \end{align*}
+      \item The remaining uncertainty is \SI{1.58}{\bit}.
+    \end{itemize}
+  \end{example}
+
+  \pause{}
+
+  \begin{remark}
+    \begin{itemize}
+      \item \(X' = \{\fcdice{2}, \fcdice{4}, \fcdice{6}\}\)
+      \item \(H(\stoch X') = - \sum_{x\in X'} \Pr(\stoch X' = x)\log \Pr(\stoch 
+          X' = x)\)
+      \item I.e.\ \(- 3 \times \frac{1}{3}\log\frac{1}{3} \approx 1.58\).
+    \end{itemize}
+  \end{remark}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[Dice yet again]
+    \begin{itemize}
+      \item We learn the die show less than five, i.e.\ not \fcdice{5} nor 
+        \fcdice{6}.
+      \item This yields
+        \begin{align*}
+          -\log\left( 4\times\frac{1}{6}\right) = \log\frac{6}{4}\approx 0.58
+        \end{align*}
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+
+\section[Applications]{Applications}
+
 \subsection{Information density and redundancy}
 
 \begin{frame}
@@ -518,65 +575,6 @@
 %
 %  \end{itemize}
 %\end{frame}
-
-\subsection{Information gain}
-
-\begin{frame}
-  \begin{definition}
-    \begin{itemize}
-      \item Set \(U\) of possible outcomes.
-      \item Probability of outcome \(u\in U\) denoted \(p_u\).
-      \item We learn that some \emph{unknown} outcome is in \(A\subset U\).
-      \item Then the \emph{information gain} \(G(A\mid U)\) is defined as
-        \begin{align*}
-          G(A\mid U) = \log\frac{1}{\Pr(A)} = -\log\Pr(A),
-        \end{align*}
-        where \(\Pr(A) = \sum_{i\in A} p_i\).
-    \end{itemize}
-  \end{definition}
-\end{frame}
-
-\begin{frame}
-  \begin{example}[Roll of dice again]
-    \begin{itemize}
-      \item Someone rolls and we should guess the result, \(\frac{1}{6}\) 
-        chance.
-      \item We learn that it was an even number, we gain
-        \begin{align*}
-          -\log\left( \frac{1}{6} + \frac{1}{6} + \frac{1}{6}\right) =
-          -\log\frac{3}{6} = \log\frac{6}{3} = \log 2 = 1.
-        \end{align*}
-      \item The remaining uncertainty is \SI{1.58}{\bit}.
-    \end{itemize}
-  \end{example}
-
-  \pause{}
-
-  \begin{remark}
-    \begin{itemize}
-      \item \(X' = \{\fcdice{2}, \fcdice{4}, \fcdice{6}\}\)
-      \item \(H(\stoch X') = - \sum_{x\in X'} \Pr(\stoch X' = x)\log \Pr(\stoch 
-          X' = x)\)
-      \item I.e.\ \(- 3 \times \frac{1}{3}\log\frac{1}{3} \approx 1.58\).
-    \end{itemize}
-  \end{remark}
-\end{frame}
-
-\begin{frame}
-  \begin{example}[Dice yet again]
-    \begin{itemize}
-      \item We learn the die show less than five, i.e.\ not \fcdice{5} nor 
-        \fcdice{6}.
-      \item This yields
-        \begin{align*}
-          -\log\left( 4\times\frac{1}{6}\right) = \log\frac{6}{4}\approx 0.58
-        \end{align*}
-    \end{itemize}
-  \end{example}
-\end{frame}
-
-
-\section[Applications]{Application in security}
 
 \subsection{Passwords}
 
