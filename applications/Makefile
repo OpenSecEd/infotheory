@@ -1,15 +1,13 @@
 .PHONY: all
-all: basics.pdf
+all: applications.pdf
 
-LATEXFLAGS+= 	-shell-escape
-TEX_OUTDIR= 	.
-
-SRC+=		basics.tex abstract.tex basics.bib
+SRC+=		applications.tex preamble.tex applications.bib
+SRC+= 		abstract.tex contents.tex
 SRC+=		hhcount.sty
 FIGURES+= 	collusion.png
 FIGURES+= 	password_strength.png password_reuse.png encryptic.png
 
-basics.pdf: ${SRC} ${FIGURES}
+applications.pdf: ${SRC} ${FIGURES}
 
 password_strength.png:
 	wget -O $@ http://imgs.xkcd.com/comics/password_strength.png
@@ -28,8 +26,8 @@ hhcount.sty hhutils0.sty:
 
 .PHONY: clean
 clean:
-	${RM} basics.pdf
-	${RM} basics.bbl basics.log.gnuplot basics.log.table basics.nav basics.run.xml basics.snm basics.vrb
+	${RM} applications.pdf
+	${RM} applications.bbl applications.log.gnuplot applications.log.table applications.nav applications.run.xml applications.snm applications.vrb
 
 
 .PHONY: distclean

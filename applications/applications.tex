@@ -1,0 +1,80 @@
+%\documentclass[handout]{beamer}
+\documentclass{beamer}
+\input{preamble.tex}
+
+\usepackage{xparse}
+\ProvideDocumentEnvironment{exercise}{o}{%
+  \setbeamercolor{block body}{bg=yellow!30,fg=black}
+  \setbeamercolor{block title}{bg=yellow,fg=black}
+  \IfValueTF{#1}{%
+    \begin{block}{Exercise: #1}
+  }{%
+    \begin{block}{Exercise}
+  }
+}{%
+  \end{block}
+}
+\ProvideDocumentEnvironment{remark}{o}{%
+  \IfValueTF{#1}{%
+    \begin{alertblock}{Remark: #1}
+  }{%
+    \begin{alertblock}{Remark}
+  }
+}{%
+  \end{alertblock}
+}
+\DeclareMathOperator{\powerset}{\mathcal{P}}
+\DeclareMathOperator{\p}{\mathcal{P}}
+\let\P\p
+\DeclareMathOperator{\C}{\mathcal{C}}
+\DeclareMathOperator{\K}{\mathcal{K}}
+\DeclareMathOperator{\E}{\mathcal{E}}
+\DeclareMathOperator{\D}{\mathcal{D}}
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+
+\let\stoch\mathbf{}
+
+\DeclareMathOperator{\xor}{\oplus}
+
+\renewcommand{\qedsymbol}{Q.E.D.}
+
+\mode<presentation>{%
+  \usetheme{Berlin}
+  \setbeamercovered{transparent}
+}
+\setbeamertemplate{footline}{\insertframenumber}
+
+\title{%
+  Applications of information theory
+}
+\author{%
+  Daniel Bosk
+}
+\institute[MIUN IKS]{%
+  Department of Information and Communication Systems,\\
+  Mid Sweden University, Sundsvall.
+}
+\date{\today}
+
+\AtBeginSection[]{%
+  \begin{frame}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage{}
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\end{frame}
+
+\mode<all>{\input{contents.tex}}
+
+\end{document}
