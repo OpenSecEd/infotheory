@@ -20,66 +20,205 @@
 \end{abstract}
 
 
-\section{Introduction}
+\section{Entropy}
 
-\dots
+\subsection{Entropy as the expected value}
 
-\subsection{What's the problem?}
+\begin{frame}
+  \begin{block}{Expected value}
+    \[
+      E[X] = \sum_{x\in X} x \Pr(x).
+    \]
+  \end{block}
 
-\dots
+  \pause
 
-\mode<presentation>{%
-  \begin{frame}
+  \begin{block}{Shannon entropy}
+    \begin{align*}
+      H[X]
+            &= \sum_{x\in X} \left( \log\frac{1}{\Pr(x)} \right) \Pr(x) \\
+            &= -\sum_{x\in X} \log[ \Pr(x) ] \Pr(x).
+    \end{align*}
+  \end{block}
+\end{frame}
+
+
+\section[Concavity and Jensen]{Concavity and Jensen's inequality}
+
+\subsection{Concave functions}
+
+\begin{frame}[fragile]
+  \begin{tikzpicture}
+    \begin{axis}[xlabel=$x$,xmin=0.5,ylabel=$\log x$]
+      \addplot gnuplot[id=log]{log(x)};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \begin{definition}
     \begin{itemize}
-      \item \dots
+      \item Function \(f\colon \RR\to \RR\) such that
+        \begin{align*}
+          tf(x) + (1-t)f(y) &\leq f(tx + (1-t)y), \\
+          t &\leq 1.
+        \end{align*}
+
+      \item Then \(f\) is \emph{concave}.
+      \item With strict inequality for \(x\neq y\) we say that \(f\) is 
+        \emph{strictly concave}.
     \end{itemize}
-  \end{frame}
-}
+  \end{definition}
+\end{frame}
 
-\subsection{Why is it a problem?}
-% Why is it a problem? Research gap left by other approaches?
-% Why is it important, why care?
+\begin{frame}[fragile]
+  \begin{example}
+    \(\log\colon \RR\to \RR\) is strictly concave.
+  \end{example}
 
-\dots
+  \begin{tikzpicture}
+    \begin{axis}[xlabel=$x$,xmin=0.5,ylabel=$\log x$]
+      \addplot gnuplot[id=log]{log(x)};
+    \end{axis}
+  \end{tikzpicture}
+\end{frame}
 
-\mode<presentation>{%
-  \begin{frame}
+%\begin{frame}
+%  \begin{lemma}
+%    Låt \(f\) vara en strikt konkav funktion.
+%    Då har vi att
+%    \begin{align*}
+%      tf(x) + (1-y)f(y) = f( tx + (1-t)y )
+%    \end{align*}
+%    om och endast om \(x = y\).
+%  \end{lemma}
+%\end{frame}
+%
+%\begin{frame}
+%  \begin{proof}
+%    Antag \(x = y\).
+%    Då har vi
+%    \begin{align*}
+%      tf(x) + (1-t)f(x) = f(x)(t+1-t) = f(x).
+%    \end{align*}
+%    Men
+%    \begin{align*}
+%      f(tx + (1-t)x) = f((t+1-t)x) = f(x)
+%    \end{align*}
+%    och alltså har vi likhet.
+%
+%    Antag \(tf(x) + (1-t)f(y) = f(tx + (1-t)y)\).
+%    Då har vi
+%    \begin{align*}
+%      t( f(x) - f(y) ) + f(y) = f( t( x - y ) + y ).
+%    \end{align*}
+%    Högerledet implicerar \(f(x) = f(y)\), men då beror vänterledet enbart på 
+%    \(f(y)\) och således måste även \(x = y\).
+%  \end{proof}
+%\end{frame}
+
+\subsection{Jensen's inequality}
+
+\begin{frame}
+  \begin{theorem}[Jensen's inequality]
     \begin{itemize}
-      \item \dots
+      \item Concave function \(f\colon \RR\to \RR\).
+      \item Real numbers \(a_1, a_2,\ldots, a_n > 0\) such that \(\sum_{i=1}^n 
+          a_i = 1\).
+      \item Then we have
+        \begin{align*}
+          \sum_{i=1}^n a_i f(x_i) \leq f\left( \sum_{i=1}^n a_i x_i\right).
+        \end{align*}
+      \item We have equality iff \(x_1 = x_2 = \cdots = x_n\).
     \end{itemize}
-  \end{frame}
-}
+  \end{theorem}
+\end{frame}
 
-\subsection{What's the approach?}
-% What's the approach? How to solve the problem?
-
-\dots
-
-\mode<presentation>{%
-  \begin{frame}
+\begin{frame}
+  \begin{block}{Proof of Jensen's inequality}
     \begin{itemize}
-      \item \dots
+      \item By induction.
+      \item Assume base case, \(n = 2\).
+      \item We have \(a_1 + a_2 = 1 \iff a_1 = 1 - a_2\).
+      \item Concavity of \(f\) implies
+        \begin{align*}
+          a_1f(x_1) + a_2f(x_2) \leq f(a_1x_1 + a_2x_2).
+        \end{align*}
+
+      \item Assume true for \(n=k\).
+        \begin{align}
+          \label{eq:JensenIndhyp}
+          \sum_{i=1}^k a_i = 1 \land
+          \sum_{i=1}^k a_i f(x_i) \leq f\left( \sum_{i=1}^k a_i x_i\right).
+        \end{align}
     \end{itemize}
-  \end{frame}
-}
+  \end{block}
+\end{frame}
 
-\subsection{What are the findings?}
-% What's the findings? How was it evaluated, what are the results, limitations, 
-% what remains to be done?
-
-\dots
-
-\mode<presentation>{%
-  \begin{frame}
+\begin{frame}
+  \begin{proof}[Cont.\ proof Jensen's inequality]
     \begin{itemize}
-      \item \dots
+      \item Show also true for \(n = k+1\).
+      \item Concavity of \(f\) implies
+        \begin{align}
+          \label{eq:JensenInductive1}
+          \sum_{i=1}^{k+1} a_i f(x_i) &=
+            a_1f(x_1) + (1-a_1)\sum_{i=2}^{k+1} \frac{a_i}{1-a_1}f(x_i) \\
+          \label{eq:JensenInductive2}
+            &\leq
+              f\left(a_1x_1 + (1-a_i)\sum_{i=2}^{k+1}
+                \frac{a_i}{1-a_1} x_i\right).
+        \end{align}
+      \item Since \(\sum_{i=2}^{k+1}\frac{a_i}{1-a_i} = 1\) we use the 
+        induction hypothesis~\eqref{eq:JensenIndhyp} in eqns~\eqref{eq:JensenInductive1} and~\eqref{eq:JensenInductive2}.
+      \item It's thus true for all \(n\in \NN\).
     \end{itemize}
-  \end{frame}
-}
+  \end{proof}
+\end{frame}
+
+
+\section[Password guessability]{Password policy and guessability}
+
+\subsection{Password policy lowers entropy}
+
+\begin{frame}
+  \begin{example}[Generating an \(n\) character long password]
+    \begin{itemize}
+      \item Use lower case (26) and upper case (26) characters.
+      \item List all possible passwords: \((2\cdot 26)^n\).
+      \item Generating is just choosing one uniformly randomly: 
+        \(\frac{1}{(2\cdot 26)^n}\).
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\begin{frame}
+  \begin{example}[Generate with a policy]
+    \begin{itemize}
+      \item Same character set.
+      \item Policy: must contain one upper case letter.
+      \item Take the previous list, remove all passwords with only lower case 
+        letters.
+      \item \(\approx (2\cdot 26)^{n-1}\cdot 26\) and \(\frac{2}{(2\cdot 
+        26)^n}\)
+    \end{itemize}
+  \end{example}
+\end{frame}
+
+\subsection{Outcomes of humans}
+
+\begin{frame}
+  \begin{remark}
+    \begin{itemize}
+      \item Human secrets are far from uniformly random.
+      \item Must sample and estimate randomness.
+    \end{itemize}
+  \end{remark}
+\end{frame}
 
 
 %%% REFERENCES %%%
 
 \begin{frame}[allowframebreaks]
-  \printbibliography{}
+  \printbibliography
 \end{frame}

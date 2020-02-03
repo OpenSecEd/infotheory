@@ -1,3 +1,6 @@
 ltxobj/
 slides.pdf
+bibsp.sty
+slides.log.gnuplot
+slides.log.table
 
